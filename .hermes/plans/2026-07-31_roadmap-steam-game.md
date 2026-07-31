@@ -99,7 +99,7 @@
 - [x] Pick concept direction (hook) → one-page pitch complete (design/01-one-page-pitch.md)
 - [x] Install Godot 4.7.1 + git, `dev/` repo set up (C:\Users\hugob\tools\godot)
 - [ ] Create Buzz pilot community + channels (Phase 0/1)
-- [ ] Engine drills (week 1–2: movement, camera, tilemaps)
+- [ ] Engine drills: [x] Drill 1 (playable slice) · [ ] Drill 2 (editor — build your cave, dev/TheLastBeacon/DRILL2.md) · [ ] Drill 3 (camera + bigger world)
 - [x] Permanent headless test suite (dev/TheLastBeacon/tests/ — `bash tests/run_tests.sh`, 4 tests)
 - [x] Pre-commit hook installed (`bash scripts/install-hooks.sh`) + GitHub Actions workflow (`.github/workflows/test.yml`, unverified until repo is pushed)
 - [ ] Write GDD v1
