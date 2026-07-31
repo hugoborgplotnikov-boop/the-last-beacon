@@ -10,6 +10,7 @@ signal died
 
 @export var speed := 220.0
 @export var jump_velocity := -420.0
+@export var double_jump_velocity := -400.0
 @export var gravity := 1100.0
 @export var roll_speed := 430.0
 @export var roll_time := 0.3
@@ -32,9 +33,12 @@ var can_attack := true
 var i_frames := false
 var dead := false
 var spawn_point := Vector2.ZERO
+var air_jumps_left := 1
+var flame_boost := 0.0
 
 @onready var body: Polygon2D = $Body
 @onready var lantern: PointLight2D = $Lantern
+@onready var lantern_flame: PointLight2D = $Lantern/Flame
 @onready var attack_box: Area2D = $AttackBox
 @onready var hit_zone: Area2D = $HitZone
 
@@ -52,7 +56,11 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	# Subtle lantern flicker — the keeper's light is alive.
 	lantern.energy = 1.35 + sin(Time.get_ticks_msec() * 0.008) * 0.08
-	$Lantern/Flame.energy = 2.0 + sin(Time.get_ticks_msec() * 0.02) * 0.25
+	if flame_boost > 0.0:
+		flame_boost = maxf(flame_boost - delta, 0.0)
+		lantern_flame.energy = 3.8
+	else:
+		lantern_flame.energy = 2.0 + sin(Time.get_ticks_msec() * 0.02) * 0.25
 
 
 func _physics_process(delta: float) -> void:
@@ -65,10 +73,18 @@ func _physics_process(delta: float) -> void:
 			facing = Vector2(dir, 0.0)
 			if not is_attacking:
 				body.scale = Vector2(facing.x, 1.0)
+			lantern_flame.position.x = 12.0 * facing.x
 		if not is_on_floor():
 			velocity.y += gravity * delta
-		if Input.is_action_just_pressed("jump") and is_on_floor() and not is_attacking:
-			velocity.y = jump_velocity
+		else:
+			air_jumps_left = 1
+		if Input.is_action_just_pressed("jump") and not is_attacking:
+			if is_on_floor():
+				velocity.y = jump_velocity
+			elif air_jumps_left > 0:
+				velocity.y = double_jump_velocity
+				air_jumps_left -= 1
+				flame_boost = 0.3
 		velocity.x = dir * speed
 
 	move_and_slide()
@@ -176,7 +192,9 @@ func reset() -> void:
 	is_rolling = false
 	attack_box.monitoring = false
 	body.scale = Vector2(facing.x, 1.0)
+	lantern_flame.position.x = 12.0 * facing.x
 	body.modulate = Color.WHITE
+	air_jumps_left = 1
 	visible = true
 	set_physics_process(true)
 	health_changed.emit(health)

@@ -13,7 +13,7 @@ The first playable slice: a keeper, a dark cave, drowned grunts, and a lantern.
 | Key | Action |
 |---|---|
 | WASD / Arrows | Move |
-| Space | Jump |
+| Space | Jump · Space (mid-air) — double jump |
 | Shift | Roll (i-frames — dodge through attacks) |
 | J | Attack with the lantern (costs stamina) |
 | — | Embers heal you — the seed of the souls economy |
