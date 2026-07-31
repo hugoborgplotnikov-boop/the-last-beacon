@@ -1,12 +1,16 @@
-# The Last Beacon — Drill 1: Movement & the Lantern
+# The Last Beacon — Prototype: The Captain
 
-The first playable slice: a keeper, a dark cave, drowned grunts, and a lantern.
+A boss-gauntlet roguelike. The keeper faces the drowned Captain in a clean
+arena — watch the telegraphs, dodge, punish. Phase 2 at half health.
 
 ## How to run
 
 1. Open Godot (`C:\Users\hugob\tools\godot\Godot_v4.7.1-stable_win64.exe`)
 2. **Import** → browse to `C:\Users\hugob\game-project\dev\TheLastBeacon\project.godot`
-3. Press **F5** (or the Play button)
+3. Press **F5** (or the Play button) — you land in the Captain's arena
+
+The old training cave still exists as `scenes/world.tscn` (open it in the
+editor and F6 to play that scene directly).
 
 ## Controls
 

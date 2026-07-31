@@ -51,7 +51,7 @@ the bottom relights the beacon.
 - The combat core already exists and is tested: movement, double jump, roll
   (i-frames), stamina, anchor attack, death loop
 - Every boss is a state machine — the 5-test suite verifies them
-- **Timeline:** 12–18 months. Milestone 1 (unchanged): one boss that feels great
+- **Timeline:** 12–18 months. Milestone 1: one boss that feels great — **the Captain is built (2026-08-01)**, arena + phase 2 + reset, 6-test suite green.
 
 ## Risk (named honestly)
 

@@ -128,8 +128,10 @@ Six, per the scope guardrail (6–8). One-sentence designs — full move lists a
 
 Walk/jump/double-jump · roll + i-frames + stamina · anchor attack (swing animation) · grunt AI (chase/contact/knockback/respawn) · death → respawn at Beacon, world reset · bright visible cave · camera follow with cave limits · platforms with honest collision · 5-test automated suite + hook.
 
-**Next build step (prototype phase):** the Captain — the first boss and the
-combat-feel test.
+**Next build step:** the run structure — upgrade cards between fights + the
+meta-currency. The Captain (first boss) is built: state machine (idle →
+telegraph → lunge/slam/sweep → recover), red-zone telegraphs, phase 2 at half
+health, victory beat, and fight reset on the keeper's death (test_captain).
 
 ## 14. Open Design Questions (deferred — not blockers)
 

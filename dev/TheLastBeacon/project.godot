@@ -11,8 +11,8 @@ config_version=5
 [application]
 
 config/name="The Last Beacon"
-config/description="A 2D souls-like where you are the last keeper of a storm-wracked lighthouse."
-run/main_scene="res://scenes/world.tscn"
+config/description="A 2D boss-gauntlet roguelike — the last keeper descends the sunken tower, one boss at a time."
+run/main_scene="res://scenes/captain_arena.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 
 [display]

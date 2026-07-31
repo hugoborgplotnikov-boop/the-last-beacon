@@ -1,0 +1,84 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scripts/captain.gd" id="1"]
+
+[sub_resource type="RectangleShape2D" id="Rect_body"]
+size = Vector2(44, 56)
+
+[sub_resource type="RectangleShape2D" id="Rect_hurt"]
+size = Vector2(46, 58)
+
+[sub_resource type="RectangleShape2D" id="Rect_touch"]
+size = Vector2(48, 60)
+
+[sub_resource type="RectangleShape2D" id="Rect_sweep"]
+size = Vector2(100, 44)
+
+[node name="Captain" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 1
+script = ExtResource("1")
+
+[node name="Body" type="Polygon2D" parent="."]
+color = Color(0.13, 0.15, 0.22, 1)
+polygon = PackedVector2Array(-22, -26, 22, -26, 22, 26, -22, 26)
+
+[node name="Head" type="Polygon2D" parent="Body"]
+position = Vector2(0, -20)
+color = Color(0.62, 0.65, 0.62, 1)
+polygon = PackedVector2Array(-8, -10, 8, -10, 8, 10, -8, 10)
+
+[node name="Hat" type="Polygon2D" parent="Body"]
+position = Vector2(0, -28)
+color = Color(0.08, 0.09, 0.13, 1)
+polygon = PackedVector2Array(-14, -6, 14, -6, 10, 2, -10, 2)
+
+[node name="Cutlass" type="Polygon2D" parent="Body"]
+position = Vector2(24, 6)
+color = Color(0.75, 0.78, 0.82, 1)
+polygon = PackedVector2Array(-2, -14, 2, -14, 2, 14, -2, 14)
+
+[node name="Eye" type="Polygon2D" parent="Body"]
+position = Vector2(0, -20)
+color = Color(0.95, 0.3, 0.2, 1)
+polygon = PackedVector2Array(-2, -2, 2, -2, 2, 2, -2, 2)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 2)
+shape = SubResource("Rect_body")
+
+[node name="HurtBox" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 0
+position = Vector2(0, 2)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
+shape = SubResource("Rect_hurt")
+
+[node name="TouchBox" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 2
+position = Vector2(0, 2)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TouchBox"]
+shape = SubResource("Rect_touch")
+
+[node name="SlamZone" type="Polygon2D" parent="."]
+visible = false
+position = Vector2(80, 10)
+color = Color(0.9, 0.25, 0.2, 0.35)
+polygon = PackedVector2Array(0, -40, 170, -40, 170, 40, 0, 40)
+
+[node name="SweepBox" type="Area2D" parent="."]
+visible = false
+monitoring = false
+collision_layer = 4
+collision_mask = 2
+position = Vector2(80, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SweepBox"]
+shape = SubResource("Rect_sweep")
+
+[node name="Visual" type="Polygon2D" parent="SweepBox"]
+color = Color(0.9, 0.25, 0.2, 0.35)
+polygon = PackedVector2Array(0, -22, 100, -22, 100, 22, 0, 22)
