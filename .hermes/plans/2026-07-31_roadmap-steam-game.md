@@ -102,5 +102,5 @@
 - [x] Engine drills: [x] Drill 1 (playable slice) · [x] Drill 2 (editor — build your cave, dev/TheLastBeacon/DRILL2.md) · [x] Drill 3 (camera + bigger world, dev/TheLastBeacon/DRILL3.md)
 - [x] Permanent headless test suite (dev/TheLastBeacon/tests/ — `bash tests/run_tests.sh`, 5 tests)
 - [x] Pre-commit hook installed (`bash scripts/install-hooks.sh`) + GitHub Actions workflow (`.github/workflows/test.yml`, unverified until repo is pushed)
-- [ ] Write GDD v1
+- [x] Write GDD v1 (design/02-game-design-doc.md — 6 bosses, 4 layers, fuel system, scope guardrails)
 - [ ] Prototype: combat feel → first boss
