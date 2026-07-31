@@ -88,8 +88,9 @@
 
 ## Open Questions (remaining)
 
-1. **Setting / hook** — ✅ **LOCKED: Lighthouse Keeper** ("The Last Beacon") — souls-like descent into the drowned island underworld; light/flame is the core twist mechanic. See design/01-one-page-pitch.md.
-2. Buzz: hosted or self-hosted? Should Hermes join your Buzz workspace as an agent, or is Buzz for other people/agents only?
+1. **Setting / hook — v1 PARKED (2026-08-01):** "Lighthouse Keeper" open-world souls-like ("The Last Beacon") — light/flame twist cut by two playtests (too dark, resource pressure not fun). Autopsy: design/01-one-page-pitch.md + design/02-game-design-doc.md.
+2. **CONCEPT v2 LOCKED (2026-08-01):** "The Last Beacon" — **boss-gauntlet roguelike** (Furi × Hades), dark epic tone, readable arenas. Keeper + anchor + drowned world + title kept; lantern/embers gone. Pitch: design/03-boss-gauntlet-pitch.md.
+3. Buzz: hosted or self-hosted? Should Hermes join your Buzz workspace as an agent, or is Buzz for other people/agents only?
 
 ---
 
