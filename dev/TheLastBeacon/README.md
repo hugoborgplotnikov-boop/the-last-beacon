@@ -15,14 +15,18 @@ The first playable slice: a keeper, a dark cave, drowned grunts, and a lantern.
 | WASD / Arrows | Move |
 | Space | Jump · Space (mid-air) — double jump |
 | Shift | Roll (i-frames — dodge through attacks) |
-| J | Attack with the lantern (costs stamina) |
-| — | Embers heal you — the seed of the souls economy |
+| J | Attack with the lantern (costs stamina **and fuel**) |
+| H | Heal — drinks 15 fuel, restores 2 HP |
+| — | Embers refuel the lantern — the seed of the souls economy |
 
 ## What this drill teaches
 
 - Movement feel: acceleration, jump arc, gravity — the foundation of combat feel
-- The light twist: outside your lantern, the world is hostile dark
+- The light twist: outside your lantern, the world is hostile dark — and the
+  lantern IS the fuel gauge (radius + brightness shrink as fuel drops)
 - Stamina tension: every attack and roll costs — the souls resource loop
+- Fuel tension: attacks spend fuel, embers refill it, healing drinks it —
+  *do you see, do you fight, or do you live?*
 - The death loop: die → **YOU DIED** → respawn, enemies reset (the bonfire rhythm)
 
 ## Drill goals (try these!)
