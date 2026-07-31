@@ -115,16 +115,18 @@ func start_attack() -> void:
 	can_attack = false
 	attack_box.position = Vector2(20.0 * facing.x, 0.0)
 	attack_box.monitoring = true
-	# The greatsword chops: a quick cock-back, then a wide arc forward-down.
-	# The angles are constants — the node's mirror (scale.x = facing.x) flips
-	# the arc outward on both sides automatically.
+	# The greatsword chops: a single outward arc — from rest, the blade
+	# accelerates forward-down, away from the keeper. The angle flips with
+	# facing (scale.x = -1 mirrors the blade's content but NOT the rotation
+	# direction — Godot applies rotation after scale).
 	sword.rotation = 0.0
 	swing_tween = create_tween()
-	swing_tween.tween_property(sword, "rotation", -0.9, 0.12).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
-	swing_tween.tween_property(sword, "rotation", 1.9, 0.2).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	swing_tween.tween_property(sword, "rotation", 1.9 * facing.x, attack_duration).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 	await get_tree().create_timer(attack_duration).timeout
 	attack_box.monitoring = false
 	is_attacking = false
+	if swing_tween and swing_tween.is_valid():
+		swing_tween.kill()
 	sword.rotation = 0.0
 	await get_tree().create_timer(maxf(attack_cooldown - attack_duration, 0.0)).timeout
 	can_attack = true
