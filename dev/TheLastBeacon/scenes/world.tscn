@@ -54,34 +54,34 @@ polygon = PackedVector2Array(1280, -700, 1360, -700, 1360, 1340, 1280, 1340)
 position = Vector2(400, 490)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Platform1" unique_id=1152427127]
-position = Vector2(0, -13)
+position = Vector2(0, 0)
 shape = SubResource("Rect_platform")
 
 [node name="Visual" type="Polygon2D" parent="Platform1" unique_id=1196307632]
 color = Color(0.2, 0.21, 0.26, 1)
-polygon = PackedVector2Array(-110, -13, 110, -13, 110, 10, -110, 10)
+polygon = PackedVector2Array(-110, -13, 110, -13, 110, 13, -110, 13)
 
 [node name="Platform3" type="StaticBody2D" parent="." unique_id=674512536]
-position = Vector2(560, 460)
+position = Vector2(640, 495)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Platform3" unique_id=1884591622]
-position = Vector2(0, -13)
+position = Vector2(0, 0)
 shape = SubResource("Rect_platform")
 
 [node name="Visual" type="Polygon2D" parent="Platform3" unique_id=1146572441]
 color = Color(0.2, 0.21, 0.26, 1)
-polygon = PackedVector2Array(-110, -13, 110, -13, 110, 10, -110, 10)
+polygon = PackedVector2Array(-110, -13, 110, -13, 110, 13, -110, 13)
 
 [node name="Platform2" type="StaticBody2D" parent="." unique_id=921552657]
 position = Vector2(760, 380)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Platform2" unique_id=685155104]
-position = Vector2(0, -13)
+position = Vector2(0, 0)
 shape = SubResource("Rect_platform")
 
 [node name="Visual" type="Polygon2D" parent="Platform2" unique_id=333194278]
 color = Color(0.2, 0.21, 0.26, 1)
-polygon = PackedVector2Array(-110, -13, 110, -13, 110, 10, -110, 10)
+polygon = PackedVector2Array(-110, -13, 110, -13, 110, 13, -110, 13)
 
 [node name="Player" parent="." unique_id=80702649 instance=ExtResource("2")]
 position = Vector2(200, 603)
