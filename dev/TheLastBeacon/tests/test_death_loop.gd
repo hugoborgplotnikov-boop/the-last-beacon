@@ -18,6 +18,8 @@ func _initialize() -> void:
 	var world := world_scene.instantiate()
 	root.add_child(world)
 	player = world.get_node("Player")
+	# Enemy4 (on Platform3) would join the maul and skew the death timing.
+	world.get_node("Enemy4").queue_free()
 	print("TEST death_loop: world loaded, player at ", player.global_position)
 
 

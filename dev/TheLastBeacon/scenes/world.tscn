@@ -95,6 +95,9 @@ position = Vector2(960, 605)
 [node name="Enemy3" parent="." unique_id=866275547 instance=ExtResource("3")]
 position = Vector2(820, 350)
 
+[node name="Enemy4" parent="." instance=ExtResource("3")]
+position = Vector2(700, 465)
+
 [node name="Ember1" parent="." unique_id=90324824 instance=ExtResource("4")]
 position = Vector2(260, 590)
 

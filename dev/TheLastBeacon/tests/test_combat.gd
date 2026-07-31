@@ -18,6 +18,8 @@ func _initialize() -> void:
 	root.add_child(world)
 	player = world.get_node("Player")
 	enemy1 = world.get_node("Enemy1")
+	# Enemy4 (on Platform3) would aggro mid-fight and skew the scenario.
+	world.get_node("Enemy4").queue_free()
 	print("TEST combat: world loaded, player at ", player.global_position)
 
 

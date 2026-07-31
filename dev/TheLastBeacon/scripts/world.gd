@@ -7,7 +7,7 @@ extends Node2D
 @onready var ember_label: Label = $UI/Embers
 @onready var stamina_fill: ColorRect = $UI/StaminaBG/Fill
 @onready var death_label: Label = $UI/DeathLabel
-@onready var enemies: Array[Node] = [$Enemy1, $Enemy2, $Enemy3]
+@onready var enemies: Array[Node] = [$Enemy1, $Enemy2, $Enemy3, $Enemy4]
 
 
 func _ready() -> void:
@@ -36,6 +36,7 @@ func _on_player_died() -> void:
 	death_label.visible = true
 	await get_tree().create_timer(2.0).timeout
 	for enemy in enemies:
-		enemy.reset_state()
+		if is_instance_valid(enemy):
+			enemy.reset_state()
 	player.reset()
 	death_label.visible = false
