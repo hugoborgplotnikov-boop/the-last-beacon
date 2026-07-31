@@ -16,6 +16,7 @@ const EMBER := preload("res://scenes/ember.tscn")
 var hp: int
 var dead := false
 var knockback_time := 0.0
+var touch_cooldown := 0.0
 var spawn_point := Vector2.ZERO
 
 @onready var body: Polygon2D = $Body
@@ -28,7 +29,6 @@ func _ready() -> void:
 	spawn_point = global_position
 	hp = max_hp
 	hurt_box.add_to_group("enemy_hurtbox")
-	touch_box.area_entered.connect(_on_touch_box_area_entered)
 	respawn_timer.timeout.connect(_respawn)
 
 
@@ -55,10 +55,14 @@ func _physics_process(delta: float) -> void:
 		velocity.x = 0.0
 	move_and_slide()
 
-
-func _on_touch_box_area_entered(area: Area2D) -> void:
-	if area.get_parent().is_in_group("player"):
-		area.get_parent().take_damage(touch_damage, global_position)
+	# Contact damage ticks while the keeper is in reach — hugging must hurt.
+	touch_cooldown = maxf(touch_cooldown - delta, 0.0)
+	if touch_cooldown <= 0.0:
+		for area in touch_box.get_overlapping_areas():
+			if area.get_parent().is_in_group("player"):
+				area.get_parent().take_damage(touch_damage, global_position)
+				touch_cooldown = 1.0
+				break
 
 
 func take_damage(dmg: int, from_pos: Vector2) -> void:

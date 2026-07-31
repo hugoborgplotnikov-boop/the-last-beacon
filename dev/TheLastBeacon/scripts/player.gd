@@ -30,6 +30,7 @@ var is_rolling := false
 var is_attacking := false
 var can_attack := true
 var i_frames := false
+var dead := false
 var spawn_point := Vector2.ZERO
 
 @onready var body: Polygon2D = $Body
@@ -109,7 +110,7 @@ func start_attack() -> void:
 	stamina_changed.emit(stamina)
 	is_attacking = true
 	can_attack = false
-	attack_box.position = Vector2(26.0 * facing.x, 2.0)
+	attack_box.position = Vector2(16.0 * facing.x, 2.0)
 	attack_box.monitoring = true
 	await get_tree().create_timer(attack_duration).timeout
 	attack_box.monitoring = false
@@ -129,7 +130,7 @@ func _on_hit_zone_area_entered(area: Area2D) -> void:
 
 
 func take_damage(dmg: int, from_pos: Vector2) -> void:
-	if i_frames or is_rolling:
+	if dead or i_frames or is_rolling:
 		return
 	health -= dmg
 	health_changed.emit(health)
@@ -157,12 +158,14 @@ func add_embers(count: int) -> void:
 
 
 func die() -> void:
+	dead = true
 	died.emit()
 	visible = false
 	set_physics_process(false)
 
 
 func reset() -> void:
+	dead = false
 	global_position = spawn_point
 	velocity = Vector2.ZERO
 	health = max_health
