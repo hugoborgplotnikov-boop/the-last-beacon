@@ -101,6 +101,6 @@
 - [ ] Create Buzz pilot community + channels (Phase 0/1)
 - [x] Engine drills: [x] Drill 1 (playable slice) · [x] Drill 2 (editor — build your cave, dev/TheLastBeacon/DRILL2.md) · [x] Drill 3 (camera + bigger world, dev/TheLastBeacon/DRILL3.md)
 - [x] Permanent headless test suite (dev/TheLastBeacon/tests/ — `bash tests/run_tests.sh`, 5 tests)
-- [x] Pre-commit hook installed (`bash scripts/install-hooks.sh`) + GitHub Actions workflow (`.github/workflows/test.yml`, unverified until repo is pushed)
+- [x] Pre-commit hook installed (`bash scripts/install-hooks.sh`) + GitHub Actions workflow — **verified green on first push** (repo: github.com/hugoborgplotnikov-boop/the-last-beacon, 2026-08-01)
 - [x] Write GDD v1 (design/02-game-design-doc.md — 6 bosses, 4 layers, fuel system, scope guardrails)
 - [ ] Prototype: combat feel → first boss
