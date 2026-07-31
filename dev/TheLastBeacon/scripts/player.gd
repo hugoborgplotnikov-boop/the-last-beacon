@@ -6,7 +6,6 @@ extends CharacterBody2D
 signal health_changed(hp: int)
 signal stamina_changed(value: float)
 signal embers_changed(count: int)
-signal fuel_changed(value: float)
 signal died
 
 @export var speed := 220.0
@@ -23,17 +22,10 @@ signal died
 @export var attack_stamina_cost := 20.0
 @export var roll_stamina_cost := 25.0
 @export var stamina_regen := 45.0
-@export var max_fuel := 100.0
-@export var attack_fuel_cost := 5.0
-@export var heal_fuel_cost := 15.0
-@export var heal_amount := 2
-@export var min_light_scale := 0.35
-@export var max_light_scale := 1.0
 
 var health: int
 var stamina: float
 var embers := 0
-var fuel: float
 var facing := Vector2.RIGHT
 var is_rolling := false
 var is_attacking := false
@@ -55,7 +47,6 @@ func _ready() -> void:
 	add_to_group("player")
 	health = max_health
 	stamina = max_stamina
-	fuel = max_fuel
 	spawn_point = global_position
 	attack_box.monitoring = false
 	attack_box.area_entered.connect(_on_attack_box_area_entered)
@@ -63,10 +54,8 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
-	# The lantern IS the fuel gauge: the flame dims and the radius shrinks as fuel drops.
-	var fuel_ratio := clampf(fuel / max_fuel, 0.0, 1.0)
-	lantern.energy = (1.35 + sin(Time.get_ticks_msec() * 0.008) * 0.08) * (0.35 + 0.65 * fuel_ratio)
-	lantern.texture_scale = lerpf(min_light_scale, max_light_scale, fuel_ratio)
+	# Subtle lantern flicker — the keeper's light is alive. Pure atmosphere now.
+	lantern.energy = 1.35 + sin(Time.get_ticks_msec() * 0.008) * 0.08
 	if flame_boost > 0.0:
 		flame_boost = maxf(flame_boost - delta, 0.0)
 		lantern_flame.energy = 3.8
@@ -108,8 +97,6 @@ func _physics_process(delta: float) -> void:
 		start_roll()
 	if Input.is_action_just_pressed("attack") and _can_attack():
 		start_attack()
-	if Input.is_action_just_pressed("heal"):
-		try_heal()
 
 
 func _can_roll() -> bool:
@@ -119,7 +106,7 @@ func _can_roll() -> bool:
 
 func _can_attack() -> bool:
 	return not is_rolling and not is_attacking \
-		and stamina >= attack_stamina_cost and fuel >= attack_fuel_cost and can_attack
+		and stamina >= attack_stamina_cost and can_attack
 
 
 func start_roll() -> void:
@@ -137,8 +124,6 @@ func start_roll() -> void:
 func start_attack() -> void:
 	stamina -= attack_stamina_cost
 	stamina_changed.emit(stamina)
-	fuel -= attack_fuel_cost
-	fuel_changed.emit(fuel)
 	is_attacking = true
 	can_attack = false
 	attack_box.position = Vector2(16.0 * facing.x, 2.0)
@@ -188,19 +173,6 @@ func add_embers(count: int) -> void:
 	embers_changed.emit(embers)
 
 
-func refuel(amount: float) -> void:
-	fuel = minf(max_fuel, fuel + amount)
-	fuel_changed.emit(fuel)
-
-
-func try_heal() -> void:
-	if dead or health >= max_health or fuel < heal_fuel_cost:
-		return
-	fuel -= heal_fuel_cost
-	fuel_changed.emit(fuel)
-	heal(heal_amount)
-
-
 func die() -> void:
 	dead = true
 	died.emit()
@@ -214,7 +186,6 @@ func reset() -> void:
 	velocity = Vector2.ZERO
 	health = max_health
 	stamina = max_stamina
-	fuel = max_fuel
 	i_frames = true
 	can_attack = true
 	is_attacking = false

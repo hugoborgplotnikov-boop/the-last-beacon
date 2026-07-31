@@ -36,7 +36,6 @@ func _physics_process(_delta: float) -> bool:
 		500:
 			h.check(player.visible, "keeper is visible after respawn")
 			h.check(player.health == player.max_health, "full health after respawn")
-			h.check(player.fuel == player.max_fuel, "lantern refilled after respawn")
 			h.check(player.global_position.distance_to(SPAWN) < 150.0, "respawned at the beacon")
 			quit(0 if h.summary() else 1)
 	min_health = mini(min_health, player.health)

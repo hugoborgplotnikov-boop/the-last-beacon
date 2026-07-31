@@ -2,6 +2,7 @@
 
 > **Status:** Concept + title locked (2026-07-31). Alt titles considered: The Light Beneath · Dead Reckoning.
 > **Title rationale:** the keeper is the last line of defense — the world's final light. Player is a guardian, not a survivor.
+> **Playtest note (2026-08-01):** the fuel/light resource mechanic was cut after the first playtest ("too dark, not fun"). The keeper's lantern is now identity and atmosphere; the game is a straight souls-like. Title, setting, and descent unchanged.
 
 **One sentence:** A 2D souls-like where you are the last keeper of a storm-wracked lighthouse — and when the lamp dies, you must descend into the drowned world beneath the island to relight it.
 
@@ -10,7 +11,7 @@
 ## The Essentials
 
 - **Genre:** 2D action RPG, souls-like (PVE)
-- **Pillars:** methodical combat (stamina, dodge, i-frames) · **light as life** · leveling/progression · memorable bosses · story
+- **Pillars:** methodical combat (stamina, dodge, i-frames) · **the descent** (one drowned world, downward) · leveling/progression · memorable bosses · story
 - **Platform:** PC (Steam) first; Steam Deck-friendly
 - **Team:** solo dev, first game. **Engine:** Godot 4
 - **Audience:** souls-like fans — Hollow Knight, Blasphemous, Salt & Sanctuary, Death's Door, Grime
@@ -19,16 +20,16 @@
 
 The lamp is dying. The sea is rising. You descend: lighthouse → sea caves → drowned city → the deep.
 
-1. **Explore** the island's underworld, where darkness is the enemy — enemies are stronger and your world shrinks to your lantern's reach
+1. **Explore** the island's underworld — a drowned civilization, layer by layer, connected by shortcuts
 2. **Fight** with your lantern-and-anchor: methodical stamina combat with i-frame dodges
-3. **Manage the flame** — the twist: your light is your sight *and* your weapon fuel. Spend it on attacks, hoard it to see. The classic souls tension, but visible in every room
+3. **Descend** — every layer is a question answered by going deeper: *who let the light die?*
 4. **Die, lose your embers, recover them at your corpse** — the souls loop
-5. **Relight braziers** (bonfires) — they mark rest points and push the dark back
+5. **Rest at the beacon** (bonfires) — respawn, refill, world resets
 6. **Face the drowned** — 6–8 bosses, each a figure from the island's past
 
 ## The Hook
 
-**The light you fight with is the light you survive by.** One mechanic — flame — drives combat, exploration, tension, and story. It's instantly understandable in a single screenshot: a tiny circle of firelight in a vast dark.
+**The world drowned because the light went out — and you are the one who has to go down there.** One island, one descent: from the storm-wracked lighthouse to the sea caves, the drowned city, and the deep where the thing that drinks light waits. Every layer is a question the keeper answers by descending — and the answer is always the same: the last keeper let the lamp die. *(Including you, eventually.)*
 
 ## Story (souls-style, cheap to build)
 
@@ -47,7 +48,7 @@ The lamp is dying. The sea is rising. You descend: lighthouse → sea caves → 
 ## Risks
 
 1. **Combat feel** — the core risk; prototype decides viability
-2. **Light mechanic could become tedious** — mitigation: flame is generous in early game, stingy later (difficulty curve *is* the design)
+2. **Gimmick risk — materialized (2026-08-01):** the fuel/light resource was cut after playtest; lesson: test resource mechanics early, keep the game readable
 3. **Scope creep** — every feature must serve the pillars
 4. **First-timer learning curve** — weeks 1–2 are engine drills
 

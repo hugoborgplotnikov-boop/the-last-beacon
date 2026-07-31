@@ -6,7 +6,6 @@ extends Node2D
 @onready var hp_label: Label = $UI/HP
 @onready var ember_label: Label = $UI/Embers
 @onready var stamina_fill: ColorRect = $UI/StaminaBG/Fill
-@onready var fuel_fill: ColorRect = $UI/FuelBG/Fill
 @onready var death_label: Label = $UI/DeathLabel
 @onready var enemies: Array[Node] = [$Enemy1, $Enemy2, $Enemy3, $Enemy4, $Enemy5]
 
@@ -14,7 +13,6 @@ extends Node2D
 func _ready() -> void:
 	player.health_changed.connect(_on_health_changed)
 	player.stamina_changed.connect(_on_stamina_changed)
-	player.fuel_changed.connect(_on_fuel_changed)
 	player.embers_changed.connect(_on_embers_changed)
 	player.died.connect(_on_player_died)
 	_on_health_changed(player.health)
@@ -28,10 +26,6 @@ func _on_health_changed(hp: int) -> void:
 
 func _on_stamina_changed(value: float) -> void:
 	stamina_fill.size.x = 200.0 * clampf(value / player.max_stamina, 0.0, 1.0)
-
-
-func _on_fuel_changed(value: float) -> void:
-	fuel_fill.size.x = 200.0 * clampf(value / player.max_fuel, 0.0, 1.0)
 
 
 func _on_embers_changed(count: int) -> void:

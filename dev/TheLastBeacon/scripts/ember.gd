@@ -1,7 +1,7 @@
 extends Area2D
 
-## An ember — a fragment of drowned light. Pick it up: it refuels the lantern
-## and counts toward your embers. Healing is now a fuel decision (H key).
+## An ember — a fragment of drowned light. Pick it up: it heals and counts toward
+## your embers. This is the seed of the souls-style currency.
 
 var t := 0.0
 var base_y := 0.0
@@ -20,5 +20,5 @@ func _process(delta: float) -> void:
 func _on_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		body.add_embers(1)
-		body.refuel(8.0)
+		body.heal(1)
 		queue_free()
