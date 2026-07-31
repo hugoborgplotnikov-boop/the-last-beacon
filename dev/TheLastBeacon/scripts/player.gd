@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-## Drill 1 player: movement, jump, roll (i-frames), anchor attack.
+## Drill 1 player: movement, jump, roll (i-frames), greatsword attack.
 ## The Last Beacon — the keeper.
 
 signal health_changed(hp: int)
@@ -16,8 +16,8 @@ signal died
 @export var max_health := 5
 @export var max_stamina := 100.0
 @export var attack_damage := 1
-@export var attack_duration := 0.25
-@export var attack_cooldown := 0.35
+@export var attack_duration := 0.32
+@export var attack_cooldown := 0.45
 @export var attack_stamina_cost := 20.0
 @export var roll_stamina_cost := 25.0
 @export var stamina_regen := 45.0
@@ -34,7 +34,7 @@ var spawn_point := Vector2.ZERO
 var air_jumps_left := 1
 
 @onready var body: Polygon2D = $Body
-@onready var anchor: Node2D = $Anchor
+@onready var sword: Node2D = $Greatsword
 @onready var attack_box: Area2D = $AttackBox
 @onready var hit_zone: Area2D = $HitZone
 
@@ -59,8 +59,8 @@ func _physics_process(delta: float) -> void:
 			facing = Vector2(dir, 0.0)
 			if not is_attacking:
 				body.scale = Vector2(facing.x, 1.0)
-			anchor.position.x = 14.0 * facing.x
-			anchor.scale.x = facing.x
+			sword.position.x = 18.0 * facing.x
+			sword.scale.x = facing.x
 		if not is_on_floor():
 			velocity.y += gravity * delta
 		else:
@@ -114,11 +114,11 @@ func start_attack() -> void:
 	can_attack = false
 	attack_box.position = Vector2(16.0 * facing.x, 2.0)
 	attack_box.monitoring = true
-	anchor.rotation = -0.7 * facing.x
+	sword.rotation = -0.95 * facing.x
 	await get_tree().create_timer(attack_duration).timeout
 	attack_box.monitoring = false
 	is_attacking = false
-	anchor.rotation = 0.0
+	sword.rotation = 0.0
 	await get_tree().create_timer(maxf(attack_cooldown - attack_duration, 0.0)).timeout
 	can_attack = true
 
@@ -175,9 +175,9 @@ func reset() -> void:
 	is_rolling = false
 	attack_box.monitoring = false
 	body.scale = Vector2(facing.x, 1.0)
-	anchor.position.x = 14.0 * facing.x
-	anchor.scale.x = facing.x
-	anchor.rotation = 0.0
+	sword.position.x = 18.0 * facing.x
+	sword.scale.x = facing.x
+	sword.rotation = 0.0
 	body.modulate = Color.WHITE
 	air_jumps_left = 1
 	visible = true

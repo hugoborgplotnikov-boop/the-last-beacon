@@ -19,12 +19,12 @@ editor and F6 to play that scene directly).
 | WASD / Arrows | Move |
 | Space | Jump · Space (mid-air) — double jump |
 | Shift | Roll (i-frames — dodge through attacks) |
-| J | Attack with the anchor (costs stamina) |
+| J | Attack with the greatsword (costs stamina) |
 
 ## What this drill teaches
 
 - Movement feel: acceleration, jump arc, gravity — the foundation of combat feel
-- The anchor: a heavy, deliberate weapon — every swing is a commitment
+- The greatsword: a heavy, deliberate weapon — every swing is a commitment
 - Stamina tension: every attack and roll costs — the souls resource loop
 - The death loop: die → **YOU DIED** → respawn, enemies reset (the bonfire rhythm)
 

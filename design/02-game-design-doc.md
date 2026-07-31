@@ -25,7 +25,7 @@ A 2D souls-like about the last keeper of a lighthouse that has already gone out.
 > **PROTOTYPE RESULT (2026-08-01): CUT.** The first playtest rejected the
 > fuel/darkness mechanic — *"way too dark, not a fan of the ember thing"* —
 > and a second pass removed the lantern and embers entirely: **the keeper's
-> weapon is now the anchor.** This section survives as the design autopsy
+> weapon is now the greatsword.** This section survives as the design autopsy
 > (the prototype did its job: killed a bad idea cheaply). The game is a
 > straight souls-like: stamina gates combat.
 
@@ -70,8 +70,8 @@ souls-currency (name TBD) will arrive with the leveling system. See §3.
 **Keeper moveset (current + planned):**
 - Walk / run / jump / **double jump** (flame flare) — done
 - **Roll** with i-frames, stamina-gated — done
-- **Anchor attack** (stamina-costing, heavy swing) — done
-- *Planned:* charged anchor swing, parry/riposte (high risk, high reward), anchor throw (ranged, retrievable)
+- **Greatsword attack** (stamina-costing, heavy swing) — done
+- *Planned:* charged greatsword swing, parry/riposte (high risk, high reward)
 
 **Enemy families** (grunt-style chasers are done; each family adds one new behavior):
 - **Grunts** — the drowned masses; chase + contact damage (done)
@@ -126,7 +126,7 @@ Six, per the scope guardrail (6–8). One-sentence designs — full move lists a
 
 ## 13. What's Already Proven (slice inventory)
 
-Walk/jump/double-jump · roll + i-frames + stamina · anchor attack (swing animation) · grunt AI (chase/contact/knockback/respawn) · death → respawn at Beacon, world reset · bright visible cave · camera follow with cave limits · platforms with honest collision · 5-test automated suite + hook.
+Walk/jump/double-jump · roll + i-frames + stamina · greatsword attack (swing animation) · grunt AI (chase/contact/knockback/respawn) · death → respawn at Beacon, world reset · bright visible cave · camera follow with cave limits · platforms with honest collision · 5-test automated suite + hook.
 
 **Next build step:** the run structure — upgrade cards between fights + the
 meta-currency. The Captain (first boss) is built: state machine (idle →
