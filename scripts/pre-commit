@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# Pre-commit hook: run the headless game test suite before committing.
+# Installed by scripts/install-hooks.sh (copied to .git/hooks/pre-commit).
+set -u
+
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+GAME_DIR="$REPO_ROOT/dev/TheLastBeacon"
+
+# Only run when game files are staged — doc-only commits skip the suite.
+if ! git diff --cached --name-only | grep -q "^dev/TheLastBeacon/"; then
+  echo "[pre-commit] no game files staged — skipping test suite"
+  exit 0
+fi
+
+echo "[pre-commit] game files staged — running headless test suite..."
+cd "$GAME_DIR" || exit 1
+if bash tests/run_tests.sh; then
+  echo "[pre-commit] tests passed"
+  exit 0
+else
+  echo "[pre-commit] TESTS FAILED — commit blocked" >&2
+  exit 1
+fi

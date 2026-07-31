@@ -19,7 +19,7 @@ fi
 
 GODOT="${GODOT_BIN:-}"
 if [ -z "$GODOT" ]; then
-  for cand in "$HOME/tools/godot/"Godot_v*.exe "$HOME/tools/godot/godot" /usr/local/bin/godot /usr/bin/godot; do
+  for cand in "$HOME/tools/godot/"Godot_v*.exe "$HOME/tools/godot/godot" godot /usr/local/bin/godot /usr/bin/godot; do
     if [ -x "$cand" ]; then GODOT="$cand"; break; fi
   done
 fi

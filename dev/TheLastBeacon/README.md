@@ -54,3 +54,8 @@ systems. Run from this folder:
   automatically.
 - Godot is auto-detected; override with
   `GODOT_BIN=/path/to/godot bash tests/run_tests.sh` if needed.
+- **Pre-commit hook:** `bash scripts/install-hooks.sh` (repo root) installs a
+  hook that runs the suite automatically whenever game files are staged;
+  doc-only commits skip it. The GitHub Actions workflow
+  (`.github/workflows/test.yml`) runs the same suite on push/PR once the repo
+  is pushed to GitHub.

@@ -101,5 +101,6 @@
 - [ ] Create Buzz pilot community + channels (Phase 0/1)
 - [ ] Engine drills (week 1–2: movement, camera, tilemaps)
 - [x] Permanent headless test suite (dev/TheLastBeacon/tests/ — `bash tests/run_tests.sh`, 4 tests)
+- [x] Pre-commit hook installed (`bash scripts/install-hooks.sh`) + GitHub Actions workflow (`.github/workflows/test.yml`, unverified until repo is pushed)
 - [ ] Write GDD v1
 - [ ] Prototype: combat feel → first boss
