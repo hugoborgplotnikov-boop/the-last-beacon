@@ -1,0 +1,10 @@
+# Godot
+.godot/
+/android/
+
+# OS junk
+Thumbs.db
+.DS_Store
+
+# Exports (later)
+/build/
