@@ -23,11 +23,11 @@ A 2D souls-like about the last keeper of a lighthouse that has already gone out.
 ## 3. The Twist: Light Is Everything
 
 > **PROTOTYPE RESULT (2026-08-01): CUT.** The first playtest rejected the
-> fuel/darkness mechanic — *"way too dark, not a fan of the ember thing"*.
-> The keeper now plays in a bright, visible cave with no fuel pressure; the
-> lantern remains as identity and atmosphere only. This section survives as
-> the design autopsy (the prototype did its job: killed a bad idea cheaply).
-> The game is a straight souls-like: stamina gates combat, embers heal.
+> fuel/darkness mechanic — *"way too dark, not a fan of the ember thing"* —
+> and a second pass removed the lantern and embers entirely: **the keeper's
+> weapon is now the anchor.** This section survives as the design autopsy
+> (the prototype did its job: killed a bad idea cheaply). The game is a
+> straight souls-like: stamina gates combat.
 
 One resource, three hungers — **fuel** (the lantern's oil) is:
 
@@ -58,8 +58,8 @@ One interconnected world, four main layers, connected by shortcuts (doors you un
 
 **Death (the souls contract):** die → drop your carried embers where you fell → respawn at the last Beacon, world reset. One run back to recover. Die again on the way → embers are gone. (Proven in the slice: death → respawn at beacon with world reset already works.)
 
-**Fuel economy — CUT by playtest (2026-08-01):** attacks cost stamina only;
-embers heal on pickup; the Beacon refills health on respawn. See §3.
+**Pickups — CUT by playtest (2026-08-01):** embers are gone entirely; the
+souls-currency (name TBD) will arrive with the leveling system. See §3.
 
 **Beacons (bonfires):** refill fuel, respawn enemies, level up, rest. The lighthouse lamp itself is the first Beacon; relit lamps along the descent become the others. *Mechanic and story are the same object.*
 
@@ -70,8 +70,8 @@ embers heal on pickup; the Beacon refills health on respawn. See §3.
 **Keeper moveset (current + planned):**
 - Walk / run / jump / **double jump** (flame flare) — done
 - **Roll** with i-frames, stamina-gated — done
-- **Lantern attack** (stamina-costing, light lashes) — done
-- *Planned:* charged attack (bigger flame, bigger cost), parry/riposte (high risk, high reward), lantern throw (ranged, drains fuel fast, retrievable)
+- **Anchor attack** (stamina-costing, heavy swing) — done
+- *Planned:* charged anchor swing, parry/riposte (high risk, high reward), anchor throw (ranged, retrievable)
 
 **Enemy families** (grunt-style chasers are done; each family adds one new behavior):
 - **Grunts** — the drowned masses; chase + contact damage (done)
@@ -126,9 +126,10 @@ Six, per the scope guardrail (6–8). One-sentence designs — full move lists a
 
 ## 13. What's Already Proven (slice inventory)
 
-Walk/jump/double-jump · roll + i-frames + stamina · lantern attack · grunt AI (chase/contact/knockback/ember drop/respawn) · ember pickup (heals) · death → respawn at Beacon, world reset · bright visible cave with the lantern as atmosphere · camera follow with cave limits · platforms with honest collision · 5-test automated suite + hook.
+Walk/jump/double-jump · roll + i-frames + stamina · anchor attack (swing animation) · grunt AI (chase/contact/knockback/respawn) · death → respawn at Beacon, world reset · bright visible cave · camera follow with cave limits · platforms with honest collision · 5-test automated suite + hook.
 
-**Next build step (prototype phase):** fuel as a real resource (attack cost, radius shrink, Beacon refill), then the Captain.
+**Next build step (prototype phase):** the Captain — the first boss and the
+combat-feel test.
 
 ## 14. Open Design Questions (deferred — not blockers)
 

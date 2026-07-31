@@ -1,11 +1,10 @@
 extends CharacterBody2D
 
-## Drill 1 player: movement, jump, roll (i-frames), lantern light, attack.
+## Drill 1 player: movement, jump, roll (i-frames), anchor attack.
 ## The Last Beacon — the keeper.
 
 signal health_changed(hp: int)
 signal stamina_changed(value: float)
-signal embers_changed(count: int)
 signal died
 
 @export var speed := 220.0
@@ -25,7 +24,6 @@ signal died
 
 var health: int
 var stamina: float
-var embers := 0
 var facing := Vector2.RIGHT
 var is_rolling := false
 var is_attacking := false
@@ -34,11 +32,9 @@ var i_frames := false
 var dead := false
 var spawn_point := Vector2.ZERO
 var air_jumps_left := 1
-var flame_boost := 0.0
 
 @onready var body: Polygon2D = $Body
-@onready var lantern: PointLight2D = $Lantern
-@onready var lantern_flame: PointLight2D = $Lantern/Flame
+@onready var anchor: Node2D = $Anchor
 @onready var attack_box: Area2D = $AttackBox
 @onready var hit_zone: Area2D = $HitZone
 
@@ -53,16 +49,6 @@ func _ready() -> void:
 	hit_zone.area_entered.connect(_on_hit_zone_area_entered)
 
 
-func _process(delta: float) -> void:
-	# Subtle lantern flicker — the keeper's light is alive. Pure atmosphere now.
-	lantern.energy = 1.35 + sin(Time.get_ticks_msec() * 0.008) * 0.08
-	if flame_boost > 0.0:
-		flame_boost = maxf(flame_boost - delta, 0.0)
-		lantern_flame.energy = 3.8
-	else:
-		lantern_flame.energy = 2.0 + sin(Time.get_ticks_msec() * 0.02) * 0.25
-
-
 func _physics_process(delta: float) -> void:
 	var dir := Input.get_axis("move_left", "move_right")
 
@@ -73,7 +59,8 @@ func _physics_process(delta: float) -> void:
 			facing = Vector2(dir, 0.0)
 			if not is_attacking:
 				body.scale = Vector2(facing.x, 1.0)
-			lantern_flame.position.x = 12.0 * facing.x
+			anchor.position.x = 14.0 * facing.x
+			anchor.scale.x = facing.x
 		if not is_on_floor():
 			velocity.y += gravity * delta
 		else:
@@ -84,7 +71,6 @@ func _physics_process(delta: float) -> void:
 			elif air_jumps_left > 0:
 				velocity.y = double_jump_velocity
 				air_jumps_left -= 1
-				flame_boost = 0.3
 		velocity.x = dir * speed
 
 	move_and_slide()
@@ -128,9 +114,11 @@ func start_attack() -> void:
 	can_attack = false
 	attack_box.position = Vector2(16.0 * facing.x, 2.0)
 	attack_box.monitoring = true
+	anchor.rotation = -0.7 * facing.x
 	await get_tree().create_timer(attack_duration).timeout
 	attack_box.monitoring = false
 	is_attacking = false
+	anchor.rotation = 0.0
 	await get_tree().create_timer(maxf(attack_cooldown - attack_duration, 0.0)).timeout
 	can_attack = true
 
@@ -168,11 +156,6 @@ func heal(amount: int) -> void:
 	health_changed.emit(health)
 
 
-func add_embers(count: int) -> void:
-	embers += count
-	embers_changed.emit(embers)
-
-
 func die() -> void:
 	dead = true
 	died.emit()
@@ -192,7 +175,9 @@ func reset() -> void:
 	is_rolling = false
 	attack_box.monitoring = false
 	body.scale = Vector2(facing.x, 1.0)
-	lantern_flame.position.x = 12.0 * facing.x
+	anchor.position.x = 14.0 * facing.x
+	anchor.scale.x = facing.x
+	anchor.rotation = 0.0
 	body.modulate = Color.WHITE
 	air_jumps_left = 1
 	visible = true

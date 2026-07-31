@@ -15,14 +15,12 @@ The first playable slice: a keeper, a dark cave, drowned grunts, and a lantern.
 | WASD / Arrows | Move |
 | Space | Jump · Space (mid-air) — double jump |
 | Shift | Roll (i-frames — dodge through attacks) |
-| J | Attack with the lantern (costs stamina) |
-| — | Embers heal you — the seed of the souls economy |
+| J | Attack with the anchor (costs stamina) |
 
 ## What this drill teaches
 
 - Movement feel: acceleration, jump arc, gravity — the foundation of combat feel
-- The light twist: the lantern is the keeper's identity — a warm glow in a
-  visible drowned world (pure atmosphere; no fuel pressure)
+- The anchor: a heavy, deliberate weapon — every swing is a commitment
 - Stamina tension: every attack and roll costs — the souls resource loop
 - The death loop: die → **YOU DIED** → respawn, enemies reset (the bonfire rhythm)
 

@@ -1,11 +1,9 @@
 extends CharacterBody2D
 
-## Drowned Grunt — chases the keeper, hurts on contact, drops an ember on death,
-## and respawns after a while. The dark is their ally.
+## Drowned Grunt — chases the keeper, hurts on contact, and respawns after a
+## while. The dark is their ally.
 
 signal died
-
-const EMBER := preload("res://scenes/ember.tscn")
 
 @export var max_hp := 3
 @export var speed := 55.0
@@ -88,9 +86,6 @@ func die() -> void:
 	hurt_box.set_deferred("monitorable", false)
 	touch_box.set_deferred("monitoring", false)
 	died.emit()
-	var ember := EMBER.instantiate()
-	ember.global_position = global_position
-	get_parent().add_child(ember)
 	respawn_timer.start()
 
 
