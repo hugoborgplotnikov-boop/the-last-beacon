@@ -32,6 +32,7 @@ var i_frames := false
 var dead := false
 var spawn_point := Vector2.ZERO
 var air_jumps_left := 1
+var swing_tween: Tween
 
 @onready var body: Polygon2D = $Body
 @onready var sword: Node2D = $Greatsword
@@ -112,9 +113,15 @@ func start_attack() -> void:
 	stamina_changed.emit(stamina)
 	is_attacking = true
 	can_attack = false
-	attack_box.position = Vector2(16.0 * facing.x, 2.0)
+	attack_box.position = Vector2(20.0 * facing.x, 0.0)
 	attack_box.monitoring = true
-	sword.rotation = -0.95 * facing.x
+	# The greatsword chops: a quick cock-back, then a wide arc forward-down.
+	# The angles are constants — the node's mirror (scale.x = facing.x) flips
+	# the arc outward on both sides automatically.
+	sword.rotation = 0.0
+	swing_tween = create_tween()
+	swing_tween.tween_property(sword, "rotation", -0.9, 0.12).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	swing_tween.tween_property(sword, "rotation", 1.9, 0.2).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 	await get_tree().create_timer(attack_duration).timeout
 	attack_box.monitoring = false
 	is_attacking = false
@@ -177,6 +184,8 @@ func reset() -> void:
 	body.scale = Vector2(facing.x, 1.0)
 	sword.position.x = 18.0 * facing.x
 	sword.scale.x = facing.x
+	if swing_tween and swing_tween.is_valid():
+		swing_tween.kill()
 	sword.rotation = 0.0
 	body.modulate = Color.WHITE
 	air_jumps_left = 1

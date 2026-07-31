@@ -6,7 +6,7 @@
 size = Vector2(22, 34)
 
 [sub_resource type="RectangleShape2D" id="Rect_attack"]
-size = Vector2(32, 34)
+size = Vector2(40, 32)
 
 [sub_resource type="RectangleShape2D" id="Rect_hitzone"]
 size = Vector2(24, 36)
