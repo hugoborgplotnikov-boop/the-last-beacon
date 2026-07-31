@@ -35,3 +35,22 @@ The first playable slice: a keeper, a dark cave, drowned grunts, and a lantern.
 ## Next
 
 Drill 2: open the editor, learn the node tree, and build your own cave.
+
+---
+
+## Testing
+
+Headless behavioral tests simulate real playthroughs and assert the core
+systems. Run from this folder:
+
+    bash tests/run_tests.sh        # or: ./tests/run_tests.sh
+
+- Every `tests/test_*.gd` runs in its own headless Godot process — it loads
+  the real `world.tscn`, presses the same inputs a player would, and checks
+  the results (exit 0 = pass).
+- The shared `tests/harness.gd` tracks checks and prints the summary.
+- **Add a test:** copy an existing `test_*.gd`, rename it, write a new input
+  schedule and `h.check(...)` assertions — the runner picks it up
+  automatically.
+- Godot is auto-detected; override with
+  `GODOT_BIN=/path/to/godot bash tests/run_tests.sh` if needed.

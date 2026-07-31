@@ -97,8 +97,9 @@
 
 - [x] Answer Phase 0 questions (genre, team, experience, scope, budget)
 - [x] Pick concept direction (hook) → one-page pitch complete (design/01-one-page-pitch.md)
-- [ ] Install Godot 4 + git, set up `dev/` repo
+- [x] Install Godot 4.7.1 + git, `dev/` repo set up (C:\Users\hugob\tools\godot)
 - [ ] Create Buzz pilot community + channels (Phase 0/1)
 - [ ] Engine drills (week 1–2: movement, camera, tilemaps)
+- [x] Permanent headless test suite (dev/TheLastBeacon/tests/ — `bash tests/run_tests.sh`, 4 tests)
 - [ ] Write GDD v1
 - [ ] Prototype: combat feel → first boss
