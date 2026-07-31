@@ -38,7 +38,7 @@ func _physics_process(_delta: float) -> bool:
 		var p3_rect := Rect2(p3.position - Vector2(110, 13), Vector2(220, 26))
 		var p1_rect := Rect2(p1.position - Vector2(110, 13), Vector2(220, 26))
 		h.check(not p3_rect.intersects(p1_rect), "Platform3 does not overlap Platform1")
-		h.check(p3.position.x > 110.0 and p3.position.x < 1170.0, "Platform3 inside the arena")
+		h.check(p3.position.x > 110.0 and p3.position.x < 2090.0, "Platform3 inside the arena")
 
 		# Recipe: collision must match the visual (regression for the offset bug).
 		var visual: Polygon2D = p3.get_node("Visual")
@@ -64,5 +64,13 @@ func _physics_process(_delta: float) -> bool:
 		h.check(rise_needed <= max_rise - 10.0,
 			"Platform3 floor-reachable with margin (needs %.0fpx, arc %.0fpx)"
 			% [rise_needed, max_rise])
+		var p4: Node2D = world.get_node("Platform4")
+		var p4_top := platform_top(p4)
+		var p4_land := p4_top - feet_offset
+		var p4_rise := rest_origin - p4_land
+		h.check(absf(p4.position.x - 1700.0) < 0.5,
+			"Platform4 in the new area (x=%.0f)" % p4.position.x)
+		h.check(p4_rise <= max_rise - 10.0,
+			"Platform4 floor-reachable with margin (needs %.0fpx, arc %.0fpx)" % [p4_rise, max_rise])
 		quit(0 if h.summary() else 1)
 	return false

@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" path="res://scenes/ember.tscn" id="4"]
 
 [sub_resource type="RectangleShape2D" id="Rect_floor"]
-size = Vector2(2400, 80)
+size = Vector2(3400, 80)
 
 [sub_resource type="RectangleShape2D" id="Rect_wall"]
 size = Vector2(80, 2000)
@@ -23,12 +23,12 @@ color = Color(0.1, 0.12, 0.18, 1)
 [node name="Floor" type="StaticBody2D" parent="." unique_id=1330390633]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" unique_id=333704728]
-position = Vector2(0, 660)
+position = Vector2(500, 660)
 shape = SubResource("Rect_floor")
 
 [node name="Visual" type="Polygon2D" parent="Floor" unique_id=787635753]
 color = Color(0.16, 0.17, 0.2, 1)
-polygon = PackedVector2Array(-1200, 620, 1200, 620, 1200, 700, -1200, 700)
+polygon = PackedVector2Array(-1200, 620, 2200, 620, 2200, 700, -1200, 700)
 
 [node name="WallLeft" type="StaticBody2D" parent="." unique_id=1404279498]
 
@@ -43,12 +43,12 @@ polygon = PackedVector2Array(-80, -700, 0, -700, 0, 1340, -80, 1340)
 [node name="WallRight" type="StaticBody2D" parent="." unique_id=504766105]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WallRight" unique_id=1464351169]
-position = Vector2(1320, 360)
+position = Vector2(2240, 360)
 shape = SubResource("Rect_wall")
 
 [node name="Visual" type="Polygon2D" parent="WallRight" unique_id=559569309]
 color = Color(0.16, 0.17, 0.2, 1)
-polygon = PackedVector2Array(1280, -700, 1360, -700, 1360, 1340, 1280, 1340)
+polygon = PackedVector2Array(2200, -700, 2280, -700, 2280, 1340, 2200, 1340)
 
 [node name="Platform1" type="StaticBody2D" parent="." unique_id=1284118467]
 position = Vector2(400, 490)
@@ -100,6 +100,22 @@ position = Vector2(700, 465)
 
 [node name="Ember1" parent="." unique_id=90324824 instance=ExtResource("4")]
 position = Vector2(260, 590)
+
+[node name="Platform4" type="StaticBody2D" parent="."]
+position = Vector2(1700, 500)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platform4"]
+shape = SubResource("Rect_platform")
+
+[node name="Visual" type="Polygon2D" parent="Platform4"]
+color = Color(0.16, 0.17, 0.2, 1)
+polygon = PackedVector2Array(-110, -13, 110, -13, 110, 13, -110, 13)
+
+[node name="Ember2" parent="." instance=ExtResource("4")]
+position = Vector2(1700, 475)
+
+[node name="Enemy5" parent="." instance=ExtResource("3")]
+position = Vector2(1780, 470)
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=701357178]
 

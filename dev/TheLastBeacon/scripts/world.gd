@@ -7,7 +7,7 @@ extends Node2D
 @onready var ember_label: Label = $UI/Embers
 @onready var stamina_fill: ColorRect = $UI/StaminaBG/Fill
 @onready var death_label: Label = $UI/DeathLabel
-@onready var enemies: Array[Node] = [$Enemy1, $Enemy2, $Enemy3, $Enemy4]
+@onready var enemies: Array[Node] = [$Enemy1, $Enemy2, $Enemy3, $Enemy4, $Enemy5]
 
 
 func _ready() -> void:
