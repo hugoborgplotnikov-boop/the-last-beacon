@@ -1,0 +1,177 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="PackedScene" uid="uid://player" path="res://scenes/player.tscn" id="1"]
+[ext_resource type="Script" path="res://scripts/arena.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/bell.gd" id="3"]
+
+[sub_resource type="CircleShape2D" id="Circle_hurt"]
+radius = 44.0
+
+[sub_resource type="RectangleShape2D" id="Rect_floor"]
+size = Vector2(1400, 10)
+
+[node name="Arena" type="Node2D"]
+script = ExtResource("2")
+
+[node name="Player" parent="." instance=ExtResource("1")
+position = Vector2(250, 601)]
+
+[node name="Boss" type="Node2D" parent="."]
+position = Vector2(700, 400)
+script = ExtResource("3")
+
+[node name="Body" type="Node2D" parent="Boss"]
+
+[node name="BellTop" type="Polygon2D" parent="Boss/Body"]
+color = Color(0.3, 0.24, 0.15, 1)
+polygon = PackedVector2Array(-36, -50, 36, -50, 40, 20, -40, 20)
+
+[node name="BellMouth" type="Polygon2D" parent="Boss/Body"]
+color = Color(0.25, 0.2, 0.12, 1)
+polygon = PackedVector2Array(-40, 20, 40, 20, 48, 48, -48, 48)
+
+[node name="Crown" type="Polygon2D" parent="Boss/Body"]
+position = Vector2(0, -50)
+color = Color(0.4, 0.34, 0.22, 1)
+polygon = PackedVector2Array(-18, -12, 18, -12, 24, 0, -24, 0)
+
+[node name="Clapper" type="Polygon2D" parent="Boss"]
+position = Vector2(0, 44)
+color = Color(0.45, 0.38, 0.26, 1)
+polygon = PackedVector2Array(-3, -18, 3, -18, 3, 0, -3, 0)
+
+[node name="HurtBox" type="Area2D" parent="Boss" groups=["enemy_hurtbox"]
+collision_layer = 4
+collision_mask = 8]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Boss/HurtBox"]
+shape = SubResource("Circle_hurt")
+
+[node name="Floor" type="StaticBody2D" parent="."]
+position = Vector2(700, 640)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
+shape = SubResource("Rect_floor")
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="HPBG" type="ColorRect" parent="UI"]
+offset_left = 20.0
+offset_top = 4.0
+offset_right = 220.0
+offset_bottom = 20.0
+color = Color(0.08, 0.06, 0.06, 0.85)
+
+[node name="HPFill" type="ColorRect" parent="UI/HPBG"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 202.0
+offset_bottom = 14.0
+color = Color(0.85, 0.2, 0.2, 1)
+
+[node name="StaminaBG" type="ColorRect" parent="UI"]
+offset_left = 20.0
+offset_top = 24.0
+offset_right = 220.0
+offset_bottom = 36.0
+color = Color(0.08, 0.08, 0.05, 0.85)
+
+[node name="Fill" type="ColorRect" parent="UI/StaminaBG"]
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 202.0
+offset_bottom = 10.0
+color = Color(0.95, 0.85, 0.45, 1)
+
+[node name="DeathLabel" type="Label" parent="UI"]
+visible = false
+anchors_preset = 8
+offset_left = -200.0
+offset_top = -30.0
+offset_right = 200.0
+offset_bottom = 30.0
+text = "YOU DIED"
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_font_sizes/font_size = 32
+
+[node name="VictoryLabel" type="Label" parent="UI"]
+visible = false
+anchors_preset = 8
+offset_left = -300.0
+offset_top = -30.0
+offset_right = 300.0
+offset_bottom = 30.0
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_font_sizes/font_size = 24
+
+[node name="RunLabel" type="Label" parent="UI"]
+offset_left = 900.0
+offset_top = 4.0
+offset_right = 1248.0
+offset_bottom = 22.0
+horizontal_alignment = 2
+theme_override_font_sizes/font_size = 16
+
+[node name="BossName" type="Label" parent="UI"]
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -200.0
+offset_top = 2.0
+offset_right = 200.0
+offset_bottom = 22.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.82, 0.65, 0.95, 1)
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 1
+text = "?"
+
+[node name="BossBG" type="ColorRect" parent="UI"]
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -150.0
+offset_top = 24.0
+offset_right = 150.0
+offset_bottom = 42.0
+color = Color(0.08, 0.06, 0.06, 0.85)
+
+[node name="BossFill" type="ColorRect" parent="UI/BossBG"]
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 298.0
+offset_bottom = 16.0
+color = Color(0.82, 0.25, 0.95, 1)
+size = Vector2(296, 16)
+
+[node name="CardPanel" type="VBoxContainer" parent="UI"]
+visible = false
+anchors_preset = 8
+offset_left = -160.0
+offset_top = 50.0
+offset_right = 160.0
+offset_bottom = 240.0
+
+[node name="Card1" type="Button" parent="UI/CardPanel"]
+custom_minimum_size = Vector2(280, 64)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(0.92, 0.88, 0.72, 1)
+theme_override_colors/font_hover_color = Color(1, 0.97, 0.85, 1)
+theme_override_colors/font_pressed_color = Color(0.72, 0.65, 0.48, 1)
+
+[node name="Card2" type="Button" parent="UI/CardPanel"]
+custom_minimum_size = Vector2(280, 64)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(0.92, 0.88, 0.72, 1)
+theme_override_colors/font_hover_color = Color(1, 0.97, 0.85, 1)
+theme_override_colors/font_pressed_color = Color(0.72, 0.65, 0.48, 1)
+
+[node name="Card3" type="Button" parent="UI/CardPanel"]
+custom_minimum_size = Vector2(280, 64)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(0.92, 0.88, 0.72, 1)
+theme_override_colors/font_hover_color = Color(1, 0.97, 0.85, 1)
+theme_override_colors/font_pressed_color = Color(0.72, 0.65, 0.48, 1)

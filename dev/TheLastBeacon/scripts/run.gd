@@ -10,6 +10,8 @@ const BOSS_ROTATION: Array[String] = [
 	"res://scenes/bastion_arena.tscn",
 	"res://scenes/fallen_beacon_arena.tscn",
 	"res://scenes/choir_arena.tscn",
+	"res://scenes/bell_arena.tscn",
+	"res://scenes/night_arena.tscn",
 ]
 
 const SHOP_SCENE := "res://scenes/main_menu.tscn"
