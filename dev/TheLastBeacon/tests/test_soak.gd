@@ -21,7 +21,13 @@ var expected_arena := ""
 func _initialize() -> void:
 	h = HARNESS.new("soak")
 	run = get_root().get_node("Run")
-	# Kick off like the real game: the main scene is the captain's arena.
+	# Clean slate: wipe the save so the test is deterministic.
+	var cfg := ConfigFile.new()
+	cfg.save("user://beacon_save.cfg")
+	run.load_game()
+	run.shards = 0
+	run.meta_unlocks = {}
+	run.save_game()
 	change_scene_to_file("res://scenes/captain_arena.tscn")
 
 

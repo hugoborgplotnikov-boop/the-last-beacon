@@ -17,6 +17,13 @@ var player1: CharacterBody2D
 func _initialize() -> void:
 	h = HARNESS.new("run")
 	run = get_root().get_node("Run")
+	# Clean slate: wipe the save so the test is deterministic.
+	var cfg := ConfigFile.new()
+	cfg.save("user://beacon_save.cfg")
+	run.load_game()
+	run.shards = 0
+	run.meta_unlocks = {}
+	run.save_game()
 	run.init_run()
 	h.check(run.CARDS.size() >= 9, "card pool has >= 9 cards (%d)" % run.CARDS.size())
 	var picks: Array = run.draw_cards(3)

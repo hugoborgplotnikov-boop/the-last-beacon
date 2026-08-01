@@ -31,7 +31,8 @@ only beating the Night at the end saves what's left of the light.
    lifesteal, speed...). Your build stacks; fights change because *you* changed
 3. **Advance** — next boss, next arena. Six trials, one gauntlet
 4. **Die** — the gauntlet restarts, but **shards** (the meta-currency)
-   persist — Hades-style permanent unlocks, "one more run"
+   persist — spend them at **the shop** on permanent unlocks (Hades-style
+   "one more run")
 5. **Beat the Night** — the last trial; the world keeps its light
 
 ## The Six Trials (the fallen champions)
@@ -59,7 +60,8 @@ only beating the Night at the end saves what's left of the light.
 - **Timeline:** 12–18 months. Milestone 1 done (2026-08-01): **the Captain
   and the Bastion are built** — arenas, phases, victory beats, lap scaling.
   Milestone 2 done same day: **the run loop** — 9 upgrade cards, shards,
-  death-restart. 9-test suite green.
+  death-restart. Milestone 3 done same day: **the shards shop** — 5 permanent
+  unlocks, save file, shop hub between runs. 10-test suite green.
 
 ## Risk (named honestly)
 

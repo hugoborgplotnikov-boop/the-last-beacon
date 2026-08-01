@@ -5,6 +5,20 @@ fight the Captain and the Bastion, pick upgrade cards between fights, and
 each lap the champions come back meaner. Die, and the gauntlet starts again
 (shards survive).
 
+## The Shards Shop
+
+The game opens on the shop — your hub between runs. Shards (earned 3 per
+victory, +3 more with the Deep Pockets unlock) buy permanent upgrades:
+
+- **Heart of the First Line** — +1 max health (×5)
+- **Tempered Heritage** — +1 damage (×3)
+- **Endurance of the Fallen** — +25 max stamina (×3)
+- **Warrior's Memory** — start each run with a free card (once)
+- **Deep Pockets** — +3 shards per victory (once)
+
+Your shards and unlocks are saved to `user://beacon_save.cfg` and survive
+closing the game.
+
 ## How to run
 
 1. Open Godot (`C:\Users\hugob\tools\godot\Godot_v4.7.1-stable_win64.exe`)

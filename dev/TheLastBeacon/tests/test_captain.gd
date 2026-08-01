@@ -17,6 +17,13 @@ var run: Node
 func _initialize() -> void:
 	h = HARNESS.new("captain")
 	run = get_root().get_node("Run")
+	# Clean slate: wipe the save so the test is deterministic.
+	var cfg := ConfigFile.new()
+	cfg.save("user://beacon_save.cfg")
+	run.load_game()
+	run.shards = 0
+	run.meta_unlocks = {}
+	run.save_game()
 	run.init_run()
 	var arena_scene: PackedScene = load("res://scenes/captain_arena.tscn")
 	arena = arena_scene.instantiate()
