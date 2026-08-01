@@ -35,7 +35,7 @@ var air_jumps_left := 1
 var swing_tween: Tween
 var lifesteal := 0
 
-@onready var body: Polygon2D = $Body
+@onready var body: Node2D = $Body
 @onready var sword: Node2D = $Greatsword
 @onready var attack_box: Area2D = $AttackBox
 @onready var hit_zone: Area2D = $HitZone
@@ -102,7 +102,6 @@ func start_roll() -> void:
 	stamina_changed.emit(stamina)
 	is_rolling = true
 	i_frames = true
-	body.scale = Vector2(facing.x * 1.2, 0.8)
 	await get_tree().create_timer(roll_time).timeout
 	is_rolling = false
 	i_frames = false
