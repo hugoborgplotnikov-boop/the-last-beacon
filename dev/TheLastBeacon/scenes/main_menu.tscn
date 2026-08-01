@@ -61,6 +61,19 @@ theme_override_font_sizes/font_size = 16
 horizontal_alignment = 1
 text = "The last light of a falling world."
 
+[node name="ClearedLabel" type="Label" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 284.0
+offset_bottom = 306.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 0.86, 0.55, 1)
+theme_override_font_sizes/font_size = 15
+horizontal_alignment = 1
+text = "GAUNTLET CLEARED"
+
 [node name="UI" type="Control" parent="."]
 layout_mode = 1
 anchors_preset = 15

@@ -133,6 +133,87 @@ func _play_boss_intro() -> void:
 	tw.parallel().tween_property(boss_name_label, "modulate:a", 0.6, 0.35)
 
 
+## THE LIGHT HOLDS — the gauntlet is broken. A full-screen victory beat:
+## the last champion falls, the world's defence stands, the run is over.
+## The save remembers the clear; a button returns to the main menu.
+func _show_gauntlet_clear() -> void:
+	Run.clear_gauntlet()
+	# Dark veil over the arena.
+	var veil := ColorRect.new()
+	veil.name = "ClearVeil"
+	veil.color = Color(0.02, 0.02, 0.04, 0)
+	veil.set_anchors_preset(Control.PRESET_FULL_RECT)
+	$UI.add_child(veil)
+
+	var title := Label.new()
+	title.name = "ClearTitle"
+	title.text = "THE LIGHT HOLDS"
+	title.add_theme_font_size_override("font_size", 44)
+	title.add_theme_color_override("font_color", Color(1.0, 0.86, 0.55))
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	title.set_anchors_preset(Control.PRESET_CENTER_TOP)
+	title.offset_top = 220.0
+	title.custom_minimum_size = Vector2(800, 60)
+	$UI.add_child(title)
+
+	var sub := Label.new()
+	sub.name = "ClearSub"
+	sub.text = "The last champion falls. For one more night, the world is safe."
+	sub.add_theme_font_size_override("font_size", 18)
+	sub.add_theme_color_override("font_color", Color(0.75, 0.7, 0.65))
+	sub.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	sub.set_anchors_preset(Control.PRESET_CENTER_TOP)
+	sub.offset_top = 292.0
+	sub.custom_minimum_size = Vector2(800, 30)
+	$UI.add_child(sub)
+
+	var mins := Run.run_time_seconds() / 60
+	var secs := Run.run_time_seconds() % 60
+	var stats := Label.new()
+	stats.name = "ClearStats"
+	stats.text = "Lap %d · %d upgrades · %d shards · %02d:%02d" % [
+		Run.lap, Run.buffs.size(), Run.shards, mins, secs]
+	stats.add_theme_font_size_override("font_size", 16)
+	stats.add_theme_color_override("font_color", Color(0.55, 0.58, 0.68))
+	stats.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	stats.set_anchors_preset(Control.PRESET_CENTER_TOP)
+	stats.offset_top = 336.0
+	stats.custom_minimum_size = Vector2(800, 26)
+	$UI.add_child(stats)
+
+	var button := Button.new()
+	button.name = "ClearButton"
+	button.text = "RETURN TO THE MENU"
+	button.add_theme_font_size_override("font_size", 22)
+	button.set_anchors_preset(Control.PRESET_CENTER)
+	button.offset_top = 40.0
+	button.custom_minimum_size = Vector2(280, 56)
+	button.pressed.connect(_on_clear_return_pressed)
+	$UI.add_child(button)
+
+	# Fade the veil in, then reveal the words.
+	var tw := create_tween()
+	tw.tween_property(veil, "color:a", 0.82, 1.2)
+	tw.tween_callback(func(): button.grab_focus())
+	button.visible = false
+	var tw2 := create_tween()
+	tw2.tween_interval(0.6)
+	tw2.tween_callback(func(): title.visible = true)
+	tw2.tween_callback(func(): sub.visible = true)
+	tw2.tween_callback(func(): stats.visible = true)
+	tw2.tween_interval(0.9)
+	tw2.tween_callback(func(): button.visible = true)
+	title.visible = false
+	sub.visible = false
+	stats.visible = false
+
+
+func _on_clear_return_pressed() -> void:
+	Sfx.play("select", -6.0)
+	Music.stop()
+	Fx.transition_to("res://scenes/main_menu.tscn")
+
+
 ## The hero fell — the run is over. Shards survive; the gauntlet restarts.
 func _on_player_died() -> void:
 	Run.record_death()
@@ -151,6 +232,10 @@ func _on_boss_died() -> void:
 	victory_shown = true
 	Run.record_victory()
 	Sfx.play("victory", -6.0)
+	# The LAST champion falls: no cards, no lap 2 — the run is over.
+	if Run.is_final_boss():
+		_show_gauntlet_clear()
+		return
 	if boss.get("death_line") != null and boss.death_line != "":
 		victory_label.text = boss.death_line
 	victory_label.visible = true

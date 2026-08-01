@@ -58,6 +58,7 @@ var boss_index := 0
 var buffs: Dictionary = {}
 var run_active := false
 var meta_unlocks: Dictionary = {}
+var run_started_at := 0
 
 
 func _ready() -> void:
@@ -70,6 +71,7 @@ func init_run() -> void:
 	boss_index = 0
 	buffs = {}
 	run_active = true
+	run_started_at = Time.get_ticks_msec()
 	# Permanent unlocks fold into the run's buffs (applied by the arena).
 	for id in meta_unlocks:
 		var n: int = meta_unlocks[id]
@@ -107,6 +109,23 @@ func advance() -> void:
 		boss_index = 0
 		lap += 1
 	Fx.transition_to(current_arena())
+
+
+## The last boss stands at the end of the rotation.
+func is_final_boss() -> bool:
+	return boss_index == BOSS_ROTATION.size() - 1
+
+
+## The gauntlet is broken: the run ends in victory, the save remembers.
+func clear_gauntlet() -> void:
+	meta_unlocks["clears"] = int(meta_unlocks.get("clears", 0)) + 1
+	run_active = false
+	save_game()
+
+
+## How long this run has been going, in seconds.
+func run_time_seconds() -> int:
+	return int((Time.get_ticks_msec() - run_started_at) / 1000.0)
 
 
 ## The run is over: back to the main menu with the wallet intact.
