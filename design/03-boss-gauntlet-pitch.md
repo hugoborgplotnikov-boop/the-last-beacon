@@ -31,8 +31,8 @@ only beating the Night at the end saves what's left of the light.
    lifesteal, speed...). Your build stacks; fights change because *you* changed
 3. **Advance** — next boss, next arena. Six trials, one gauntlet
 4. **Die** — the gauntlet restarts, but **shards** (the meta-currency)
-   persist — spend them at **the shop** on permanent unlocks (Hades-style
-   "one more run")
+   persist — the shop is resting for now: death returns to the main menu,
+   START NEW GAME throws you back in. The shop returns later.
 5. **Beat the Night** — the last trial; the world keeps its light
 
 ## The Six Trials (the fallen champions)

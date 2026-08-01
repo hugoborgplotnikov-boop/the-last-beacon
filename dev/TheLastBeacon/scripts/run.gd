@@ -11,7 +11,7 @@ const BOSS_ROTATION: Array[String] = [
 	"res://scenes/fallen_beacon_arena.tscn",
 ]
 
-const SHOP_SCENE := "res://scenes/shop.tscn"
+const SHOP_SCENE := "res://scenes/main_menu.tscn"
 const SAVE_PATH := "user://beacon_save.cfg"
 
 ## Card pool: id -> {title, desc, buffs} — buffs accumulate per run and are
@@ -95,7 +95,7 @@ func advance() -> void:
 	get_tree().change_scene_to_file(current_arena())
 
 
-## The run is over: the hero returns to the shop with the wallet intact.
+## The run is over: back to the main menu with the wallet intact.
 func restart_run() -> void:
 	init_run()
 	save_game()

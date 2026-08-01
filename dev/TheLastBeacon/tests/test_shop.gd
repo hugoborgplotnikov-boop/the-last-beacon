@@ -1,7 +1,9 @@
 extends SceneTree
-## test_shop.gd — the meta-currency contract: the wallet persists to disk,
-## purchases spend shards and record unlocks, affordability and caps are
-## enforced, and init_run folds permanent unlocks into every fresh run.
+## test_shop.gd — the meta-layer contract (the shop UI is resting; the
+## wallet, purchases, persistence, and run-folding logic live on in run.gd
+## for when the shop returns): affordability and caps are enforced, the
+## wallet persists to disk, and init_run folds permanent unlocks into every
+## fresh run. The game currently boots into the main menu.
 ## Deterministic: starts from a wiped save file.
 
 const HARNESS = preload("res://tests/harness.gd")
@@ -10,7 +12,7 @@ const SAVE := "user://beacon_save.cfg"
 var frames := 0
 var h: RefCounted
 var run: Node
-var shop: Control
+var menu: Control
 
 
 func _initialize() -> void:
@@ -55,19 +57,20 @@ func _initialize() -> void:
 	run.shards = 0
 	run.record_victory()
 	h.check(run.shards == 6, "pockets victory pays 6 (3+3)")
-	# The shop scene exists and exposes its controls.
-	var shop_scene: PackedScene = load("res://scenes/shop.tscn")
-	shop = shop_scene.instantiate()
-	root.add_child(shop)
-	print("TEST shop: wallet+purchases+persistence+meta ok — checking the scene")
+	# The main menu exists and exposes its controls.
+	var menu_scene: PackedScene = load("res://scenes/main_menu.tscn")
+	menu = menu_scene.instantiate()
+	root.add_child(menu)
+	print("TEST shop: wallet+purchases+persistence+meta ok — checking the menu")
 
 
 func _physics_process(_delta: float) -> bool:
 	frames += 1
 	match frames:
 		5:
-			h.check(shop.get_node("UI/BalanceLabel") != null, "shop has a balance label")
-			h.check(shop.get_node("UI/BeginButton") != null, "shop has the begin button")
-			h.check(shop.get_node("UI/ItemList") != null, "shop has the item list")
+			h.check(menu.get_node("UI/StartButton") != null, "menu has the start button")
+			h.check(menu.get_node("Title") != null, "menu has the title")
+			h.check(menu.get_node("UI/StartButton").text == "START NEW GAME",
+				"start button says START NEW GAME")
 			quit(0 if h.summary() else 1)
 	return false

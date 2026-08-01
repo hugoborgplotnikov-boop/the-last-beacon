@@ -5,19 +5,13 @@ fight the Captain, the Bastion, and the Fallen Beacon, pick upgrade cards
 between fights, and each lap the champions come back meaner. Die, and the
 gauntlet starts again (shards survive).
 
-## The Shards Shop
+## The Main Menu
 
-The game opens on the shop — your hub between runs. Shards (earned 3 per
-victory, +3 more with the Deep Pockets unlock) buy permanent upgrades:
+The game boots to **START NEW GAME** — one click and you're in the
+gauntlet. Die, and the run-over screen returns you to the menu.
 
-- **Heart of the First Line** — +1 max health (×5)
-- **Tempered Heritage** — +1 damage (×3)
-- **Endurance of the Fallen** — +25 max stamina (×3)
-- **Warrior's Memory** — start each run with a free card (once)
-- **Deep Pockets** — +3 shards per victory (once)
-
-Your shards and unlocks are saved to `user://beacon_save.cfg` and survive
-closing the game.
+The shards shop is resting (its wallet, unlocks, and save plumbing are
+still live in `run.gd` and tested — it can return anytime).
 
 ## How to run
 

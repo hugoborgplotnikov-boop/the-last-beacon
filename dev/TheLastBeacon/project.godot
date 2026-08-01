@@ -12,7 +12,7 @@ config_version=5
 
 config/name="The Last Beacon"
 config/description="A 2D boss-gauntlet roguelike — you are the last beacon of a falling world. Face the champions who fell before you."
-run/main_scene="res://scenes/shop.tscn"
+run/main_scene="res://scenes/main_menu.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 
 [display]
