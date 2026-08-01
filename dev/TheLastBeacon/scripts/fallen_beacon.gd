@@ -2,9 +2,10 @@ extends CharacterBody2D
 
 ## The Fallen Beacon — third trial of the gauntlet. The hero who held the
 ## light before you, fighting with YOUR moveset — greatsword, roll, i-frames
-## — one generation rustier. The mirror fight: her telegraph is the blade
-## cocking back (you know what a raised greatsword means), she rolls through
-## your swings, and in phase 2 she punishes your whiffs. Don't get greedy.
+## — one generation rustier. THE DUEL: she parries idle swings (punish her
+## recovery, not her guard), she has a stamina bar like yours (whiff her
+## into the ground and she gasps, wide open), and in phase 2 her chop chains
+## and her counters come faster. Don't get greedy.
 
 signal died
 signal hit_taken
@@ -14,12 +15,17 @@ enum State { IDLE, TELEGRAPH_SWING, SWING, ROLL, RECOVER, DEAD }
 
 @export var max_hp := 12
 @export var boss_name := "THE FALLEN BEACON"
+@export var intro_line := "So. You carry the light now."
+@export var death_line := "She nods. The light is yours now."
 @export var walk_speed := 60.0
 @export var touch_damage := 1
 @export var gravity := 1100.0
 @export var aggro_range := 420.0
 @export var swing_range := 180.0
 @export var roll_speed := 260.0
+@export var max_stamina := 100.0
+@export var swing_stamina_cost := 25.0
+@export var stamina_regen := 15.0
 
 var hp: int
 var phase := 1
@@ -29,12 +35,15 @@ var dead := false
 var facing := Vector2.LEFT
 var attack_count := 0
 var roll_count := 0
+var parries := 0
+var stamina := 100.0
 var touch_cooldown := 0.0
 var spawn_point := Vector2.ZERO
 # Cancels stale attack coroutines on death/reset (the fight-id pattern).
 var fight_id := 0
 
 @onready var body: Polygon2D = $Body
+@onready var eye: Polygon2D = $Body/Eye
 @onready var sword: Polygon2D = $Body/Sword
 @onready var hurt_box: Area2D = $HurtBox
 @onready var touch_box: Area2D = $TouchBox
@@ -69,6 +78,10 @@ func _physics_process(delta: float) -> void:
 			velocity.x = 0.0
 	move_and_slide()
 
+	# Stamina regen when she's not mid-swing — hers works like yours.
+	if state != State.TELEGRAPH_SWING and state != State.SWING:
+		stamina = minf(max_stamina, stamina + stamina_regen * delta)
+
 	# Contact damage ticks while the hero is in reach — hugging must hurt.
 	touch_cooldown = maxf(touch_cooldown - delta, 0.0)
 	if touch_cooldown <= 0.0:
@@ -102,6 +115,11 @@ func _try_attack(player: Node2D) -> void:
 			await _roll(player, fid)
 		else:
 			await _swing(player, fid)
+			# Phase 2 teeth: the chop can chain into a second, faster chop.
+			if fid != fight_id or dead:
+				return
+			if phase == 2 and stamina >= swing_stamina_cost and randf() < 0.5:
+				await _swing(player, fid, true)
 	if fid != fight_id or dead:
 		return
 	# Punish window, then she resets to idle.
@@ -115,12 +133,23 @@ func _try_attack(player: Node2D) -> void:
 
 ## The greatsword chop — the mirror of the hero's own swing. The telegraph
 ## is the blade cocking back; the hitbox is the arc in front of her.
-func _swing(player: Node2D, fid: int) -> void:
+## Costs stamina: whiff her dry and she can't swing at all.
+func _swing(player: Node2D, fid: int, fast := false) -> void:
+	if stamina < swing_stamina_cost:
+		# Gassed: she can't lift the greatsword — she stands wide open.
+		state = State.RECOVER
+		body.modulate = Color(0.8, 0.75, 0.7)
+		await get_tree().create_timer(1.5).timeout
+		if fid != fight_id or dead:
+			return
+		body.modulate = Color.WHITE
+		return
+	stamina -= swing_stamina_cost
 	_face(player)
 	state = State.TELEGRAPH_SWING
 	sword.rotation = -1.3
 	body.modulate = Color(1.6, 1.6, 1.6)
-	await get_tree().create_timer(0.5 if phase == 1 else 0.32).timeout
+	await get_tree().create_timer(0.32 if (fast or phase == 2) else 0.5).timeout
 	if fid != fight_id or dead:
 		return
 	body.modulate = Color.WHITE
@@ -176,8 +205,42 @@ func _roll(player: Node2D, fid: int) -> void:
 		return
 
 
+## THE DUEL: she parries swings that land while she's idle — the deflection
+## bounces the hero back and feeds a fast counter-chop. Punish her recovery,
+## not her guard.
+func _do_parry(player: Node2D) -> void:
+	var fid := fight_id
+	busy = true
+	state = State.TELEGRAPH_SWING
+	sword.rotation = -1.3
+	body.modulate = Color(1.9, 1.9, 2.0)
+	await get_tree().create_timer(0.32).timeout
+	if fid != fight_id or dead:
+		return
+	if stamina >= swing_stamina_cost:
+		await _swing(player, fid, true)
+	else:
+		# The deflection was her last effort — she stands wide open.
+		body.modulate = Color.WHITE
+		state = State.RECOVER
+		await get_tree().create_timer(1.5).timeout
+		if fid != fight_id or dead:
+			return
+	busy = false
+	state = State.IDLE
+
+
 func take_damage(dmg: int, from_pos: Vector2) -> void:
 	if dead or hp <= 0:
+		return
+	# THE MIRROR: an idle parry. The hero must strike during her recovery.
+	var player := get_tree().get_first_node_in_group("player") as CharacterBody2D
+	if state == State.IDLE and not busy and player \
+			and global_position.distance_to(player.global_position) < swing_range:
+		parries += 1
+		_do_parry(player)
+		player.take_damage(0, global_position)
+		player.velocity.x = 240.0 * signf(player.global_position.x - global_position.x)
 		return
 	hp -= dmg
 	# Bosses barely flinch.
@@ -194,6 +257,8 @@ func take_damage(dmg: int, from_pos: Vector2) -> void:
 		Engine.time_scale = 1.0
 	if hp <= max_hp / 2 and phase == 1:
 		phase = 2
+		# The light in her eye burns brighter as she pushes past her limit.
+		eye.color = Color(1.6, 1.1, 0.4)
 	await get_tree().create_timer(0.08).timeout
 	if not dead:
 		body.modulate = Color.WHITE
@@ -233,11 +298,13 @@ func reset_state() -> void:
 	state = State.IDLE
 	phase = 1
 	hp = max_hp
+	stamina = max_stamina
 	global_position = spawn_point
 	velocity = Vector2.ZERO
 	body.visible = true
 	body.modulate = Color.WHITE
 	body.scale.x = facing.x
+	eye.color = Color(1.0, 0.72, 0.3)
 	sword.rotation = 0.0
 	swing_box.monitoring = false
 	swing_box.visible = false

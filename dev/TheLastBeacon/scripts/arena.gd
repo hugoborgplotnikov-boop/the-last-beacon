@@ -16,6 +16,8 @@ extends Node2D
 @onready var boss_bar_bg: ColorRect = $UI/BossBG
 @onready var boss_bar_fill: ColorRect = $UI/BossBG/BossFill
 @onready var boss_name_label: Label = $UI/BossName
+@onready var boss_stamina_bg: ColorRect = get_node_or_null("UI/BossStaminaBG")
+@onready var boss_stamina_fill: ColorRect = get_node_or_null("UI/BossStaminaBG/BossStaminaFill")
 
 
 var victory_shown := false
@@ -36,6 +38,9 @@ func _ready() -> void:
 	_on_stamina_changed(player.stamina)
 	run_label.text = "Lap %d · Shards %d · %d upgrades" % [Run.lap, Run.shards, Run.buffs.size()]
 	boss_name_label.text = boss.boss_name
+	# Some champions speak before the duel.
+	if boss.get("intro_line") != null and boss.intro_line != "":
+		_show_dialogue(boss.intro_line, 2.5)
 	# The arena is 0..1400 — clamp the hero's camera to it.
 	var cam: Camera2D = player.get_node("Camera2D")
 	cam.limit_left = 0
@@ -49,6 +54,31 @@ func _process(_delta: float) -> void:
 	var ratio := clampf(boss.hp / float(maxi(boss.max_hp, 1)), 0.0, 1.0)
 	boss_bar_fill.size.x = 296.0 * ratio
 	boss_bar_bg.visible = not boss.dead
+	# The Duel: bosses with a stamina bar show it under their health.
+	if boss_stamina_fill != null and boss.get("max_stamina") != null:
+		var sratio := clampf(boss.stamina / float(maxf(boss.max_stamina, 1.0)), 0.0, 1.0)
+		boss_stamina_fill.size.x = 296.0 * sratio
+		boss_stamina_bg.visible = not boss.dead
+
+
+## A spoken line, faded out after a moment (no cutscenes — just a beat).
+func _show_dialogue(text: String, seconds: float) -> void:
+	var label := Label.new()
+	label.name = "DialogueLabel"
+	label.text = text
+	label.add_theme_font_size_override("font_size", 20)
+	label.add_theme_color_override("font_color", Color(0.95, 0.85, 0.65))
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.anchor_left = 0.5
+	label.anchor_right = 0.5
+	label.offset_left = -420.0
+	label.offset_right = 420.0
+	label.offset_top = 70.0
+	label.offset_bottom = 102.0
+	$UI.add_child(label)
+	await get_tree().create_timer(seconds).timeout
+	if is_instance_valid(label):
+		label.queue_free()
 
 
 func _on_health_changed(hp: int) -> void:
@@ -93,6 +123,8 @@ func _on_boss_died() -> void:
 		return
 	victory_shown = true
 	Run.record_victory()
+	if boss.get("death_line") != null and boss.death_line != "":
+		victory_label.text = boss.death_line
 	victory_label.visible = true
 	run_label.text = "Lap %d · Shards %d · %d upgrades" % [Run.lap, Run.shards, Run.buffs.size()]
 	var picks: Array[String] = Run.draw_cards(3)
