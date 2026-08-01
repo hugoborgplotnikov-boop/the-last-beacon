@@ -8,6 +8,7 @@ extends Node
 const BOSS_ROTATION: Array[String] = [
 	"res://scenes/captain_arena.tscn",
 	"res://scenes/bastion_arena.tscn",
+	"res://scenes/fallen_beacon_arena.tscn",
 ]
 
 const SHOP_SCENE := "res://scenes/shop.tscn"

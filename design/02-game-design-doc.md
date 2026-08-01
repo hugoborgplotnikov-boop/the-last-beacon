@@ -133,10 +133,9 @@ Six, per the scope guardrail (6–8). One-sentence designs — full move lists a
 
 ## 13. What's Already Proven (slice inventory)
 
-Walk/jump/double-jump · roll + i-frames + stamina · greatsword attack (swing animation) · grunt AI (chase/contact/knockback/respawn) · death → respawn, world reset · bright visible cave · camera follow with cave limits · platforms with honest collision · **the run loop: 9 upgrade cards + shards + lap scaling (run.gd)** · **two bosses: the Captain (lunge/slam/sweep, phase 2) and the Bastion (eruption/sweep/charge, phase 2)** · hit-stop + screen shake · **the shards shop: 5 permanent unlocks + save file, shop hub between runs (shop.gd)** · 10-test automated suite + hook.
+Walk/jump/double-jump · roll + i-frames + stamina · greatsword attack (swing animation) · grunt AI (chase/contact/knockback/respawn) · death → respawn, world reset · bright visible cave · camera follow with cave limits · platforms with honest collision · **the run loop: 9 upgrade cards + shards + lap scaling (run.gd)** · **three bosses: the Captain (lunge/slam/sweep, phase 2), the Bastion (eruption/sweep/charge, phase 2), and the Fallen Beacon (greatsword chop + i-frame roll, phase 2 counters)** · hit-stop + screen shake · **the shards shop: 5 permanent unlocks + save file, shop hub between runs (shop.gd)** · 12-test automated suite + hook.
 
-**Next build step:** boss #3 — the Fallen Beacon (the mirror fight — she
-uses the hero's own moveset).
+**Next build step:** boss #4 — the Hollow Choir (multi-body, phase-shifting).
 
 ## 14. Open Design Questions (deferred — not blockers)
 

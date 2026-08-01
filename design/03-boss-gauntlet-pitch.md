@@ -42,7 +42,7 @@ only beating the Night at the end saves what's left of the light.
 2. **The Bastion** — a colossus of stone and iron, the last wall that fell;
    teaches positioning *(built)*
 3. **The Fallen Beacon** — the hero who held the light before you, fighting
-   with YOUR moveset, one generation rustier; the mirror fight
+   with YOUR moveset; the mirror fight *(built)*
 4. **The Hollow Choir** — the voices of the fallen singing as one; multi-body,
    phase-shifting
 5. **The Bell of the Last Hour** — the bell that tolled when the defense
@@ -61,7 +61,9 @@ only beating the Night at the end saves what's left of the light.
   and the Bastion are built** — arenas, phases, victory beats, lap scaling.
   Milestone 2 done same day: **the run loop** — 9 upgrade cards, shards,
   death-restart. Milestone 3 done same day: **the shards shop** — 5 permanent
-  unlocks, save file, shop hub between runs. 10-test suite green.
+ unlocks, save file, shop hub between runs. Milestone 4 done same day:
+ **the Fallen Beacon** — the mirror fight: she rolls with real i-frames
+ and punishes whiffs in phase 2. 12-test suite green.
 
 ## Risk (named honestly)
 
