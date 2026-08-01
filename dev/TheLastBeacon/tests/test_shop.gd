@@ -43,10 +43,12 @@ func _initialize() -> void:
 	run.load_game()
 	h.check(run.shards == 7, "wallet survives reload (7)")
 	h.check(run.meta_unlocks.get("fortitude", 0) == 2, "unlocks survive reload (2)")
-	# init_run folds unlocks into the run (plus the memory starter card).
+	# init_run folds unlocks into the run (plus the memory starter card;
+	# seeded so the random draw is deterministic — seed 7 draws Lifeleech).
+	seed(7)
 	run.init_run()
 	h.check(run.buffs.get("hp", 0) >= 2, "meta hp buff in the run (>=2)")
-	h.check(run.buffs.size() >= 2, "starter card folded in (%d buffs)" % run.buffs.size())
+	h.check(run.buffs.get("lifesteal", 0) == 1, "starter card folded in (Lifeleech)")
 	# Deep Pockets: +3 shards per victory on top of the base 3.
 	run.shards = 8
 	h.check(run.purchase("pockets"), "deep pockets bought")

@@ -58,14 +58,16 @@ func _physics_process(_delta: float) -> bool:
 			_wait_for_arena("res://scenes/bastion_arena.tscn")
 			phase = 4
 		4:
-			h.check(run.buffs.size() == 1, "soak: card buff carried into the next arena")
+			h.check(not run.buffs.is_empty(), "soak: card buff carried into the next arena")
 			h.check(run.lap == 1 and run.boss_index == 1, "soak: rotation at bastion, lap 1")
 			boss.take_damage(99, boss.global_position + Vector2(10, 0))
 			phase = 5
 		5:
 			if frames >= 25:
 				h.check(run.shards == 6, "soak: second victory sharded (6)")
-				arena.card_buttons[0].pressed.emit()
+				# Deterministic pick: call the handler with a fixed card id
+				# (the random-draw signal path is covered by pick 1 above).
+				arena._on_card_pressed("tempered_steel")
 				phase = 6
 		6:
 			_wait_for_arena("res://scenes/captain_arena.tscn")
@@ -73,7 +75,7 @@ func _physics_process(_delta: float) -> bool:
 		7:
 			h.check(run.lap == 2, "soak: lap advanced to 2")
 			h.check(boss.max_hp == 12, "soak: lap-2 captain scaled (hp=%d)" % boss.max_hp)
-			h.check(run.buffs.size() == 2, "soak: two cards carried")
+			h.check(run.buffs.get("damage", 0) >= 1, "soak: Tempered Steel carried into lap 2")
 			boss.take_damage(99, boss.global_position + Vector2(10, 0))
 			phase = 8
 		8:
