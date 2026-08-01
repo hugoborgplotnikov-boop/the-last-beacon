@@ -73,9 +73,11 @@ func _physics_process(delta: float) -> void:
 		if Input.is_action_just_pressed("jump") and not is_attacking:
 			if is_on_floor():
 				velocity.y = jump_velocity
+				Sfx.play("jump", -12.0, 1.0)
 			elif air_jumps_left > 0:
 				velocity.y = double_jump_velocity
 				air_jumps_left -= 1
+				Sfx.play("jump", -12.0, 1.15)
 		velocity.x = dir * speed
 
 	move_and_slide()
@@ -137,6 +139,7 @@ func start_roll() -> void:
 	stamina_changed.emit(stamina)
 	is_rolling = true
 	i_frames = true
+	Sfx.play("roll", -10.0)
 	await get_tree().create_timer(roll_time).timeout
 	is_rolling = false
 	i_frames = false
@@ -150,6 +153,7 @@ func start_attack() -> void:
 	can_attack = false
 	attack_box.position = Vector2(20.0 * facing.x, 0.0)
 	attack_box.monitoring = true
+	Sfx.play("swing", -6.0, 1.0)
 	# The greatsword chops: a single outward arc — from rest, the blade
 	# accelerates forward-down, away from the hero. The angle flips with
 	# facing (scale.x = -1 mirrors the blade's content but NOT the rotation
@@ -176,6 +180,7 @@ func _on_attack_box_area_entered(area: Area2D) -> void:
 		Fx.sparks(contact, (target.global_position - global_position).normalized())
 		if lifesteal > 0 and not dead:
 			heal(lifesteal)
+		Sfx.play("hit", -4.0, randf_range(0.92, 1.08))
 
 
 func _on_hit_zone_area_entered(area: Area2D) -> void:
@@ -189,6 +194,7 @@ func take_damage(dmg: int, from_pos: Vector2) -> void:
 	health -= dmg
 	health_changed.emit(health)
 	i_frames = true
+	Sfx.play("hurt", -6.0)
 	var knock := (global_position - from_pos).normalized()
 	velocity = knock * 260.0
 	velocity.y = -180.0
@@ -224,6 +230,7 @@ func apply_buffs(buffs: Dictionary) -> void:
 func die() -> void:
 	dead = true
 	died.emit()
+	Sfx.play("death", -4.0)
 	visible = false
 	set_physics_process(false)
 

@@ -132,6 +132,7 @@ func _on_boss_died() -> void:
 		return
 	victory_shown = true
 	Run.record_victory()
+	Sfx.play("victory", -6.0)
 	if boss.get("death_line") != null and boss.death_line != "":
 		victory_label.text = boss.death_line
 	victory_label.visible = true
@@ -151,5 +152,6 @@ func _on_card_pressed(id: String) -> void:
 		btn.visible = false
 	card_panel.visible = false
 	victory_label.text = "THE GAUNTLET OPENS"
+	Sfx.play("click", -8.0)
 	Run.apply_card(id)
 	Run.advance()

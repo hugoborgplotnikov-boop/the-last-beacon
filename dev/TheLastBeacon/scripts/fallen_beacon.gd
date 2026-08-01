@@ -39,6 +39,11 @@ var parries := 0
 var stamina := 100.0
 var touch_cooldown := 0.0
 var spawn_point := Vector2.ZERO
+# A brief window after recovery where she holds her guard: IDLE, not busy,
+# but not starting a new attack yet — THIS is where idle swings get
+# parried. Without it the parry is unreachable with real inputs.
+var guard_timer := 0.0
+const GUARD_TIME := 0.25
 # Cancels stale attack coroutines on death/reset (the fight-id pattern).
 var fight_id := 0
 
@@ -66,7 +71,10 @@ func _physics_process(delta: float) -> void:
 	if player and not player.visible:
 		player = null
 	if state == State.IDLE and not busy:
-		if player and global_position.distance_to(player.global_position) < aggro_range:
+		if guard_timer > 0.0:
+			guard_timer -= delta
+			velocity.x = 0.0
+		elif player and global_position.distance_to(player.global_position) < aggro_range:
 			if global_position.distance_to(player.global_position) < swing_range:
 				velocity.x = 0.0
 				_try_attack(player)
@@ -122,13 +130,15 @@ func _try_attack(player: Node2D) -> void:
 				await _swing(player, fid, true)
 	if fid != fight_id or dead:
 		return
-	# Punish window, then she resets to idle.
+	# Punish window, then she resets to idle — and holds her guard for a
+	# moment: idle but not attacking, so an eager swing gets parried.
 	state = State.RECOVER
 	await get_tree().create_timer(0.5).timeout
 	if fid != fight_id or dead:
 		return
 	busy = false
 	state = State.IDLE
+	guard_timer = GUARD_TIME
 
 
 ## The greatsword chop — the mirror of the hero's own swing. The telegraph
@@ -229,6 +239,7 @@ func _do_parry(player: Node2D) -> void:
 			return
 	busy = false
 	state = State.IDLE
+	guard_timer = GUARD_TIME
 
 
 func take_damage(dmg: int, from_pos: Vector2) -> void:

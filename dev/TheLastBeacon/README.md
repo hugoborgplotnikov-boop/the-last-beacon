@@ -1,26 +1,30 @@
-# The Last Beacon — Prototype: The Run Loop
+# The Last Beacon
 
 A boss-gauntlet roguelike. You are the last beacon of a falling world —
-fight the Captain, the Bastion, and the Fallen Beacon, pick upgrade cards
-between fights, and each lap the champions come back meaner. Die, and the
-gauntlet starts again (shards survive).
+fight the champions who fell before you, pick upgrade cards between
+fights, and each lap the roster comes back meaner. Die, and the gauntlet
+starts again (shards survive).
 
-## The Main Menu
+## The Roster (6/6 built)
 
-The game boots to **START NEW GAME** — one click and you're in the
-gauntlet. Die, and the run-over screen returns you to the menu.
+1. **The Captain** — lunge, slam, sweep; phase 2 below half HP. Teaches *watch → dodge → punish*.
+2. **The Bastion** — ground-eruption telegraphs, sweep, charge; the wall. Teaches *patience*.
+3. **The Fallen Beacon** — the mirror fight: *your* moveset, one generation rustier. Parries idle swings, spends stamina, gasps when spent. Teaches *rhythm*.
+4. **The Hollow Choir** — four singers, one shared HP pool, weaving notes that home in phase 2. Teaches *position*.
+5. **The Bell of the Last Hour** — shockwave rings you must jump, debris from above. Teaches *timing*.
+6. **The Night** — teleports, shadow strikes, phase 2 faster. Everything you've learned.
 
-The shards shop is resting (its wallet, unlocks, and save plumbing are
-still live in `run.gd` and tested — it can return anytime).
+## The Loop
 
-## How to run
+- **START NEW GAME** → Captain → Bastion → Fallen Beacon → Hollow Choir → Bell → Night → lap 2 (scaled).
+- Victory → pick **1 of 3 upgrade cards** (20-card pool).
+- Death → **YOU DIED** → back to the menu. Shards survive in the save file.
 
-1. Open Godot (`C:\Users\hugob\tools\godot\Godot_v4.7.1-stable_win64.exe`)
-2. **Import** → browse to `C:\Users\hugob\game-project\dev\TheLastBeacon\project.godot`
-3. Press **F5** (or the Play button) — you land in the Captain's arena
+## Main Menu & Shop
 
-The old training cave still exists as `scenes/world.tscn` (open it in the
-editor and F6 to play that scene directly).
+The game boots to **START NEW GAME**. The shards shop is resting — its
+wallet, unlocks, and save plumbing (`run.gd`) are live and tested, and it
+can return anytime as the between-runs hub.
 
 ## Controls
 
@@ -31,36 +35,31 @@ editor and F6 to play that scene directly).
 | Shift | Roll (i-frames — dodge through attacks) |
 | J | Attack with the greatsword (costs stamina) |
 
-## What this drill teaches
+## How to run
 
-- Movement feel: acceleration, jump arc, gravity — the foundation of combat feel
-- The greatsword: a heavy, deliberate weapon — every swing is a commitment
-- Stamina tension: every attack and roll costs — the souls resource loop
-- The death loop: die → **YOU DIED** → respawn, enemies reset (the bonfire rhythm)
+1. Open Godot (`C:\Users\hugob\tools\godot\Godot_v4.7.1-stable_win64.exe`)
+2. **Import** → browse to `C:\Users\hugob\game-project\dev\TheLastBeacon\project.godot`
+3. Press **F5** (or the Play button) — you land on the main menu
 
-## Drill goals (try these!)
-
-1. Kill all three grunts without taking a hit
-2. Roll *through* a grunt's attack (i-frames)
-3. Lure a grunt off the platform — gravity is your ally
-4. Spend stamina to zero, then survive 5 seconds without attacking
-
-## Next
-
-Drill 2: open the editor, learn the node tree, and build your own cave.
-
----
+The old training cave still exists as `scenes/world.tscn` (open it in the
+editor and F6 to play that scene directly).
 
 ## Testing
 
 Headless behavioral tests simulate real playthroughs and assert the core
 systems. Run from this folder:
 
-	bash tests/run_tests.sh        # or: ./tests/run_tests.sh
+```bash
+bash tests/run_tests.sh        # or: ./tests/run_tests.sh
+```
 
+- **15 tests**: movement, combat, roll, death loop, platforms, Captain,
+  Bastion, Fallen Beacon, Choir, Bell, Night, run loop, shards shop,
+  end-to-end soak (full 6-boss lap), and a **bot** that plays the Captain
+  with real inputs.
 - Every `tests/test_*.gd` runs in its own headless Godot process — it loads
-  the real `world.tscn`, presses the same inputs a player would, and checks
-  the results (exit 0 = pass).
+  the real scenes, presses the same inputs a player would, and checks the
+  results (exit 0 = pass).
 - The shared `tests/harness.gd` tracks checks and prints the summary.
 - **Add a test:** copy an existing `test_*.gd`, rename it, write a new input
   schedule and `h.check(...)` assertions — the runner picks it up
@@ -70,5 +69,4 @@ systems. Run from this folder:
 - **Pre-commit hook:** `bash scripts/install-hooks.sh` (repo root) installs a
   hook that runs the suite automatically whenever game files are staged;
   doc-only commits skip it. The GitHub Actions workflow
-  (`.github/workflows/test.yml`) runs the same suite on push/PR once the repo
-  is pushed to GitHub.
+  (`.github/workflows/test.yml`) runs the same suite on push/PR.

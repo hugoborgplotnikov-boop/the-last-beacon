@@ -10,5 +10,6 @@ func _ready() -> void:
 
 
 func _on_start_pressed() -> void:
+	Sfx.play("select", -6.0)
 	Run.init_run()
 	Fx.transition_to("res://scenes/captain_arena.tscn")

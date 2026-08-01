@@ -14,7 +14,7 @@ const BOSS_ROTATION: Array[String] = [
 	"res://scenes/night_arena.tscn",
 ]
 
-const SHOP_SCENE := "res://scenes/main_menu.tscn"
+const SHOP_SCENE := "res://scenes/shop.tscn"
 const SAVE_PATH := "user://beacon_save.cfg"
 
 ## Card pool: id -> {title, desc, buffs} — buffs accumulate per run and are

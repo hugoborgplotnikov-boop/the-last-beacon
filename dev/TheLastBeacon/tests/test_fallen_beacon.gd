@@ -70,6 +70,7 @@ func _physics_process(_delta: float) -> bool:
 			h.check(boss.stamina < 25.0, "she never swung while gassed (stam %.0f)" % boss.stamina)
 		240:
 			h.check(player.health < 5, "her greatsword lands real hits (hero %d/5)" % player.health)
+		300:
 			h.check(boss.attack_count >= 2, "she fights autonomously (%d attacks)" % boss.attack_count)
 			h.check(arena.boss_stamina_fill.size.x < 296.0, "her stamina bar drains as she swings")
 	# State-reacted poke: the parry needs her IDLE, the hero in reach.

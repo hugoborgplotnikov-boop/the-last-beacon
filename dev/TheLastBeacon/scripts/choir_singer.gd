@@ -47,6 +47,7 @@ func _fire() -> void:
 	var player := get_tree().get_first_node_in_group("player") as CharacterBody2D
 	if player == null or choir.get("dead") and choir.dead:
 		return
+	Sfx.play("note", -10.0, randf_range(0.85, 1.15))
 	var to_player: Vector2 = player.global_position - global_position
 	var aim: Vector2 = to_player.normalized()
 	# Phase 2: slight homing — we apply a slow curve in the note itself.

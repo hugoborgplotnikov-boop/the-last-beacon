@@ -133,9 +133,9 @@ Six, per the scope guardrail (6–8). One-sentence designs — full move lists a
 
 ## 13. What's Already Proven (slice inventory)
 
-Walk/jump/double-jump · roll + i-frames + stamina · greatsword attack (swing animation) · grunt AI (chase/contact/knockback/respawn) · death → respawn, world reset · bright visible cave · camera follow with cave limits · platforms with honest collision · **the run loop: 9 upgrade cards + shards + lap scaling (run.gd)** · **three bosses: the Captain (lunge/slam/sweep, phase 2), the Bastion (eruption/sweep/charge, phase 2), and the Fallen Beacon (the Duel: parry + stamina + i-frame roll, phase 2 chains)** · hit-stop + screen shake · **main menu (START NEW GAME); the shards shop is resting — wallet/unlocks/save plumbing still live + tested (shop.gd removed)** · 12-test automated suite + hook.
+Walk/jump/double-jump · roll + i-frames + stamina · greatsword attack (swing animation) · grunt AI (chase/contact/knockback/respawn) · death → respawn, world reset · bright visible cave · camera follow with cave limits · platforms with honest collision · **the run loop: 20 upgrade cards + shards + lap scaling (run.gd)** · **six bosses: the Captain (lunge/slam/sweep, phase 2), the Bastion (eruption/sweep/charge, phase 2), the Fallen Beacon (the Duel: parry + stamina + i-frame roll, phase 2 chains), the Hollow Choir (4 voices, one HP pool, weaving notes, phase 2 homing), the Bell of the Last Hour (shockwave rings, debris), and the Night (teleports, shadow strikes, phase 2)** · hit-stop + screen shake + fade transitions + hero bloom · rigged procedural hero animation (run/jump/roll/attack, no keyframes) · impact FX: sparks, dust, rings, bursts · per-arena parallax backdrops · HP bar · **main menu (START NEW GAME); the shards shop is resting — wallet/unlocks/save plumbing still live + tested (shop.gd removed)** · 15-test automated suite + hook.
 
-**Next build step:** boss #4 — the Hollow Choir (multi-body, phase-shifting).
+**Next build step:** sound design (swing whoosh, hit clang, boss themes), the shop returns as the between-runs hub, and the bot extends to all six bosses.
 
 ## 14. Open Design Questions (deferred — not blockers)
 

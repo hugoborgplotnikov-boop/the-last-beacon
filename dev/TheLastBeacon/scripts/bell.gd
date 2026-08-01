@@ -50,6 +50,7 @@ func _physics_process(delta: float) -> void:
 
 func _ring() -> void:
 	big_attack.emit()
+	Sfx.play("bell", -6.0)
 	Fx.ring(global_position, Color(0.6, 0.5, 0.25, 1), 72.0, 4.0)
 	# The shockwave expands from the bell's center.
 	var wave := shockwave_scene.instantiate() as Node2D

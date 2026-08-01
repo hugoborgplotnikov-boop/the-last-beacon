@@ -18,6 +18,8 @@ only beating the Night at the end saves what's left of the light.
 ## The Essentials
 
 - **Genre:** boss-rush roguelike — *Furi × Hades* (2D action, mastery combat)
+- **Roster:** 6 bosses — the Captain, the Bastion, the Fallen Beacon, the
+  Hollow Choir, the Bell of the Last Hour, the Night
 - **Tone:** dark epic — dramatic, serious, readable but intense (*Sekiro*)
 - **Platform:** PC (Steam) first; Steam Deck-friendly
 - **Team:** solo dev, first game. **Engine:** Godot 4.7.1
@@ -59,11 +61,17 @@ only beating the Night at the end saves what's left of the light.
 - Every boss is a state machine — the 9-test suite verifies them
 - **Timeline:** 12–18 months. Milestone 1 done (2026-08-01): **the Captain
   and the Bastion are built** — arenas, phases, victory beats, lap scaling.
-  Milestone 2 done same day: **the run loop** — 9 upgrade cards, shards,
+  Milestone 2 done same day: **the run loop** — 20 upgrade cards, shards,
   death-restart. Milestone 3 done same day: **the shards shop** — 5 permanent
- unlocks, save file, shop hub between runs. Milestone 4 done same day:
- **the Fallen Beacon** — the mirror fight: she rolls with real i-frames
- and punishes whiffs in phase 2. 12-test suite green.
+  unlocks, save file, shop hub between runs (resting; plumbing live + tested).
+  Milestone 4 done same day: **the Fallen Beacon** — the mirror fight: she
+  rolls with real i-frames and punishes whiffs in phase 2.
+  Milestone 5 (2026-08-02): **the full roster** — the Hollow Choir (4 voices,
+  one HP pool, weaving notes), the Bell of the Last Hour (shockwave rings,
+  falling debris), and the Night (teleport strikes, shadow copies).
+  **Visual overhaul** — rigged procedural hero animation, impact FX (sparks,
+  dust, rings, bursts), per-arena parallax backdrops, HP bar, screen shake,
+  fade transitions, hero bloom. 15-test suite green.
 
 ## Risk (named honestly)
 
