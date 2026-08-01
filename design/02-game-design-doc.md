@@ -111,7 +111,7 @@ Six, per the scope guardrail (6–8). One-sentence designs — full move lists a
 ## 11. Technical Pillars
 
 - Godot 4.7.1, GDScript, 2D — proven by the slice.
-- **Verification culture:** headless behavioral test suite (`bash tests/run_tests.sh`, 5 tests), pre-commit hook, CI workflow ready for GitHub. Every new system gets a test (combat rules, death contract, fuel economy, boss state machines).
+- **Verification culture:** headless behavioral test suite (`bash tests/run_tests.sh`, 7 tests), pre-commit hook, CI workflow live on GitHub. Every new system gets a test (combat rules, death contract, boss state machines, run loop).
 - Performance headroom: 2D + light is cheap; the whole game can run on modest hardware — good for Steam Deck and low-spec wishlists.
 
 ## 12. Scope Guardrails & Risks
@@ -126,12 +126,11 @@ Six, per the scope guardrail (6–8). One-sentence designs — full move lists a
 
 ## 13. What's Already Proven (slice inventory)
 
-Walk/jump/double-jump · roll + i-frames + stamina · greatsword attack (swing animation) · grunt AI (chase/contact/knockback/respawn) · death → respawn at Beacon, world reset · bright visible cave · camera follow with cave limits · platforms with honest collision · 5-test automated suite + hook.
+Walk/jump/double-jump · roll + i-frames + stamina · greatsword attack (swing animation) · grunt AI (chase/contact/knockback/respawn) · death → respawn at Beacon, world reset · bright visible cave · camera follow with cave limits · platforms with honest collision · **the run loop: 9 upgrade cards + salt + lap scaling (run.gd)** · **two bosses: the Captain (lunge/slam/sweep, phase 2) and the Tidesworn (eruption/sweep/charge, phase 2)** · hit-stop + screen shake · 7-test automated suite + hook.
 
-**Next build step:** the run structure — upgrade cards between fights + the
-meta-currency. The Captain (first boss) is built: state machine (idle →
-telegraph → lunge/slam/sweep → recover), red-zone telegraphs, phase 2 at half
-health, victory beat, and fight reset on the keeper's death (test_captain).
+**Next build step:** the meta-currency shop — spend salt between runs on
+permanent unlocks (max HP, starting cards, new moves), then boss #3 (the
+Keeper of the Old Lamp, the mirror fight).
 
 ## 14. Open Design Questions (deferred — not blockers)
 

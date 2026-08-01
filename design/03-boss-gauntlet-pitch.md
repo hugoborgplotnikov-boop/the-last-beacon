@@ -50,8 +50,11 @@ the bottom relights the beacon.
   + upgrades + arenas
 - The combat core already exists and is tested: movement, double jump, roll
   (i-frames), stamina, greatsword attack, death loop
-- Every boss is a state machine — the 5-test suite verifies them
-- **Timeline:** 12–18 months. Milestone 1: one boss that feels great — **the Captain is built (2026-08-01)**, arena + phase 2 + reset, 6-test suite green.
+- Every boss is a state machine — the 7-test suite verifies them
+- **Timeline:** 12–18 months. Milestone 1 done (2026-08-01): **the Captain
+  and the Tidesworn are built** — arenas, phases, victory beats, lap scaling.
+  Milestone 2 done same day: **the run loop** — 9 upgrade cards, salt,
+  death-restart. 7-test suite green.
 
 ## Risk (named honestly)
 

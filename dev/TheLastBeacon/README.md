@@ -1,7 +1,8 @@
-# The Last Beacon — Prototype: The Captain
+# The Last Beacon — Prototype: The Run Loop
 
-A boss-gauntlet roguelike. The keeper faces the drowned Captain in a clean
-arena — watch the telegraphs, dodge, punish. Phase 2 at half health.
+A boss-gauntlet roguelike. Fight the drowned Captain and the Tidesworn,
+pick upgrade cards between fights, and descend deeper each lap — until you
+fall, and the descent starts again (salt survives).
 
 ## How to run
 
