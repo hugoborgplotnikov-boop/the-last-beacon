@@ -46,6 +46,9 @@ func _ready() -> void:
 	var bd: Node = load("res://scripts/backdrop.gd").new()
 	bd.setup_for(boss_name_label.text)
 	add_child(bd)
+	# The soundtrack turns over; the champion announces himself.
+	Music.play("fight")
+	_play_boss_intro()
 	# The arena is 0..1400 — clamp the hero's camera to it.
 	var cam: Camera2D = player.get_node("Camera2D")
 	cam.limit_left = 0
@@ -113,6 +116,21 @@ func _shake(amount: float) -> void:
 		tween.tween_callback(cam.set_offset.bind(Vector2(randf_range(-amount, amount), randf_range(-amount, amount))))
 		tween.tween_interval(0.03)
 	tween.tween_callback(cam.set_offset.bind(Vector2.ZERO))
+
+
+## The champion's entrance: a roar, then the name slams in over the arena.
+func _play_boss_intro() -> void:
+	boss_name_label.pivot_offset = boss_name_label.size * 0.5
+	boss_name_label.modulate = Color(1, 1, 1, 0)
+	boss_name_label.scale = Vector2(2.6, 2.6)
+	Sfx.play("roar", -4.0)
+	var tw := create_tween()
+	tw.tween_property(boss_name_label, "scale", Vector2(1.0, 1.0), 0.28) \
+		.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tw.parallel().tween_property(boss_name_label, "modulate:a", 1.0, 0.2)
+	tw.tween_interval(0.9)
+	tw.tween_property(boss_name_label, "scale", Vector2(0.82, 0.82), 0.35)
+	tw.parallel().tween_property(boss_name_label, "modulate:a", 0.6, 0.35)
 
 
 ## The hero fell — the run is over. Shards survive; the gauntlet restarts.

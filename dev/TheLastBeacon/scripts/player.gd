@@ -181,6 +181,17 @@ func _on_attack_box_area_entered(area: Area2D) -> void:
 		if lifesteal > 0 and not dead:
 			heal(lifesteal)
 		Sfx.play("hit", -4.0, randf_range(0.92, 1.08))
+		_hitstop()
+
+
+## Hit-stop: a 60ms freeze of game time when the greatsword connects —
+## the moment reads as impact, not as a number. Skipped headless.
+func _hitstop() -> void:
+	if DisplayServer.get_name() == "headless":
+		return
+	Engine.time_scale = 0.05
+	await get_tree().create_timer(0.06, true, false, true).timeout
+	Engine.time_scale = 1.0
 
 
 func _on_hit_zone_area_entered(area: Area2D) -> void:
@@ -231,6 +242,8 @@ func die() -> void:
 	dead = true
 	died.emit()
 	Sfx.play("death", -4.0)
+	# A death must never leave hit-stop frozen.
+	Engine.time_scale = 1.0
 	visible = false
 	set_physics_process(false)
 

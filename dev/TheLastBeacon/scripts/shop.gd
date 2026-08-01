@@ -19,6 +19,7 @@ const UNLOCK_ORDER: Array[String] = ["fortitude", "blade", "stamina", "memory", 
 func _ready() -> void:
 	if not Run.run_active:
 		Run.load_game()
+	Music.play("menu")
 	_run_label()
 	for i in UNLOCK_ORDER.size():
 		var id: String = UNLOCK_ORDER[i]

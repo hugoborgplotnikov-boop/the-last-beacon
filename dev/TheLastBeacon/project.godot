@@ -62,3 +62,4 @@ environment/defaults/default_clear_color=Color(0.02, 0.02, 0.05, 1)
 Run="*res://scripts/run.gd"
 Fx="*res://scripts/fx.gd"
 Sfx="*res://scripts/sfx.gd"
+Music="*res://scripts/music.gd"
