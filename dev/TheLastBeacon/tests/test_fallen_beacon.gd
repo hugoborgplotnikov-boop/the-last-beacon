@@ -104,7 +104,7 @@ func _physics_process(_delta: float) -> bool:
 		h.check(run.shards == 3, "no double award (shards=%d)" % run.shards)
 		quit(0 if h.summary() else 1)
 		return false
-	# Live observation: catch her mid-roll and verify the mirror i-frames.
-	if boss.state == boss.State.ROLL and not roll_iframes_seen:
-		roll_iframes_seen = not boss.hurt_box.monitoring
+	# Live observation: catch her mid-roll — if hurtbox ever drops, latch it.
+	if boss.state == boss.State.ROLL and not boss.hurt_box.monitoring:
+		roll_iframes_seen = true
 	return false

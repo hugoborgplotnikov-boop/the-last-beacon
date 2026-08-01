@@ -6,8 +6,9 @@ extends Node2D
 
 @onready var player: CharacterBody2D = $Player
 @onready var boss: Node2D = $Boss
-@onready var hp_label: Label = $UI/HP
+@onready var hp_fill: ColorRect = $UI/HPBG/HPFill
 @onready var stamina_fill: ColorRect = $UI/StaminaBG/Fill
+@onready var hp_smooth := 5.0
 @onready var death_label: Label = $UI/DeathLabel
 @onready var victory_label: Label = $UI/VictoryLabel
 @onready var run_label: Label = $UI/RunLabel
@@ -41,6 +42,10 @@ func _ready() -> void:
 	# Some champions speak before the duel.
 	if boss.get("intro_line") != null and boss.intro_line != "":
 		_show_dialogue(boss.intro_line, 2.5)
+	# The world behind the fight: parallax backdrop, one palette per arena.
+	var bd: Node = load("res://scripts/backdrop.gd").new()
+	bd.setup_for(boss_name_label.text)
+	add_child(bd)
 	# The arena is 0..1400 — clamp the hero's camera to it.
 	var cam: Camera2D = player.get_node("Camera2D")
 	cam.limit_left = 0
@@ -54,6 +59,10 @@ func _process(_delta: float) -> void:
 	var ratio := clampf(boss.hp / float(maxi(boss.max_hp, 1)), 0.0, 1.0)
 	boss_bar_fill.size.x = 296.0 * ratio
 	boss_bar_bg.visible = not boss.dead
+	# HP bar lerps so damage reads as a chunk.
+	hp_smooth = lerpf(hp_smooth, player.health, 0.18)
+	var hpratio := clampf(hp_smooth / float(maxf(player.max_health, 1)), 0.0, 1.0)
+	hp_fill.size.x = 200.0 * hpratio
 	# The Duel: bosses with a stamina bar show it under their health.
 	if boss_stamina_fill != null and boss.get("max_stamina") != null:
 		var sratio := clampf(boss.stamina / float(maxf(boss.max_stamina, 1.0)), 0.0, 1.0)
@@ -82,7 +91,7 @@ func _show_dialogue(text: String, seconds: float) -> void:
 
 
 func _on_health_changed(hp: int) -> void:
-	hp_label.text = "♥".repeat(maxi(hp, 0)) + "♡".repeat(maxi(player.max_health - hp, 0))
+	pass  # HP is now a lerped bar updated in _process
 
 
 func _on_stamina_changed(value: float) -> void:
