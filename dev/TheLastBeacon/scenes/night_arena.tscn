@@ -2,10 +2,10 @@
 
 [ext_resource type="PackedScene" uid="uid://player" path="res://scenes/player.tscn" id="1"]
 [ext_resource type="Script" path="res://scripts/arena.gd" id="2"]
-[ext_resource type="Script" path="res://scripts/bell.gd" id="3"]
+[ext_resource type="Script" path="res://scripts/night.gd" id="3"]
 
 [sub_resource type="CircleShape2D" id="Circle_hurt"]
-radius = 44.0
+radius = 20.0
 
 [sub_resource type="RectangleShape2D" id="Rect_floor"]
 size = Vector2(1400, 10)
@@ -14,31 +14,31 @@ size = Vector2(1400, 10)
 script = ExtResource("2")
 
 [node name="Player" parent="." instance=ExtResource("1")]
-position = Vector2(250, 601)
+position = Vector2(150, 601)
 
 [node name="Boss" type="Node2D" parent="."]
-position = Vector2(700, 400)
+position = Vector2(700, 601)
 script = ExtResource("3")
 
 [node name="Body" type="Node2D" parent="Boss"]
 
-[node name="BellTop" type="Polygon2D" parent="Boss/Body"]
-color = Color(0.3, 0.24, 0.15, 1)
-polygon = PackedVector2Array(-36, -50, 36, -50, 40, 20, -40, 20)
+[node name="Shadow" type="Polygon2D" parent="Boss/Body"]
+color = Color(0.08, 0.04, 0.12, 0.9)
+polygon = PackedVector2Array(-12, -28, 12, -28, 14, 20, -14, 20)
 
-[node name="BellMouth" type="Polygon2D" parent="Boss/Body"]
-color = Color(0.25, 0.2, 0.12, 1)
-polygon = PackedVector2Array(-40, 20, 40, 20, 48, 48, -48, 48)
+[node name="Horns" type="Polygon2D" parent="Boss/Body"]
+color = Color(0.06, 0.02, 0.1, 1)
+polygon = PackedVector2Array(-10, -28, -2, -26, -12, -38, 12, -38, 2, -26, 10, -28)
 
-[node name="Crown" type="Polygon2D" parent="Boss/Body"]
-position = Vector2(0, -50)
-color = Color(0.4, 0.34, 0.22, 1)
-polygon = PackedVector2Array(-18, -12, 18, -12, 24, 0, -24, 0)
+[node name="EyeL" type="Polygon2D" parent="Boss/Body"]
+position = Vector2(-3, -14)
+color = Color(0.9, 0.3, 0.9, 1)
+polygon = PackedVector2Array(-1.5, -1.5, 1.5, -1.5, 1.5, 1.5, -1.5, 1.5)
 
-[node name="Clapper" type="Polygon2D" parent="Boss"]
-position = Vector2(0, 44)
-color = Color(0.45, 0.38, 0.26, 1)
-polygon = PackedVector2Array(-3, -18, 3, -18, 3, 0, -3, 0)
+[node name="EyeR" type="Polygon2D" parent="Boss/Body"]
+position = Vector2(3, -14)
+color = Color(0.9, 0.3, 0.9, 1)
+polygon = PackedVector2Array(-1.5, -1.5, 1.5, -1.5, 1.5, 1.5, -1.5, 1.5)
 
 [node name="HurtBox" type="Area2D" parent="Boss" groups=["enemy_hurtbox"]]
 collision_layer = 4
