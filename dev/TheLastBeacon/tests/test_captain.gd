@@ -1,8 +1,8 @@
 extends SceneTree
 ## test_captain.gd — the first boss contract: he fights autonomously, takes
-## damage, enters phase 2 at half health, dies into the victory beat, and the
-## whole fight resets when the keeper falls. (Deterministic: no input
-## simulation — direct damage and state pokes.)
+## damage, enters phase 2 at half health, dies into the victory beat (salt +
+## card choice), and the keeper's death ends the run and restarts it fresh.
+## (Deterministic: no input simulation — direct damage and state pokes.)
 
 const HARNESS = preload("res://tests/harness.gd")
 
@@ -11,15 +11,18 @@ var player: CharacterBody2D
 var captain: Node
 var arena: Node2D
 var h: RefCounted
+var run: Node
 
 
 func _initialize() -> void:
 	h = HARNESS.new("captain")
+	run = get_root().get_node("Run")
+	run.init_run()
 	var arena_scene: PackedScene = load("res://scenes/captain_arena.tscn")
 	arena = arena_scene.instantiate()
 	root.add_child(arena)
 	player = arena.get_node("Player")
-	captain = arena.get_node("Captain")
+	captain = arena.get_node("Boss")
 	print("TEST captain: arena loaded, captain hp=", captain.hp, " at ", captain.global_position)
 
 
@@ -49,12 +52,17 @@ func _physics_process(_delta: float) -> bool:
 			h.check(captain.dead, "captain died from the beating")
 			h.check(not captain.body.visible, "captain's body hidden after death")
 			h.check(arena.victory_label.visible, "victory beat shown")
+			h.check(run.salt == 3, "victory granted 3 salt (salt=%d)" % run.salt)
+			h.check(arena.card_buttons[0].visible and arena.card_buttons[2].visible,
+				"three upgrade cards offered")
 		200:
-			# The keeper's death restarts the fight (i-frames long expired).
+			# The keeper's death ends the run. Note: die() is deferred ~0.9s
+			# (hit flash + i-frames), then 2.5s of run-over, so the restart
+			# lands near frame 405 — check at 470.
 			player.take_damage(99, player.global_position + Vector2(10, 0))
-		400:
-			h.check(captain.visible and captain.hp == captain.max_hp and captain.phase == 1,
-				"fight reset after the keeper's death (hp=%d phase=%d)" % [captain.hp, captain.phase])
-			h.check(player.visible and player.health == player.max_health, "keeper respawned")
+		470:
+			h.check(run.run_active, "death restarted a fresh run")
+			h.check(run.lap == 1, "fresh run starts at lap 1")
+			h.check(run.salt == 3, "salt survived the death (meta-currency)")
 			quit(0 if h.summary() else 1)
 	return false

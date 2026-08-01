@@ -33,6 +33,7 @@ var dead := false
 var spawn_point := Vector2.ZERO
 var air_jumps_left := 1
 var swing_tween: Tween
+var lifesteal := 0
 
 @onready var body: Polygon2D = $Body
 @onready var sword: Node2D = $Greatsword
@@ -135,6 +136,8 @@ func start_attack() -> void:
 func _on_attack_box_area_entered(area: Area2D) -> void:
 	if area.is_in_group("enemy_hurtbox"):
 		area.get_parent().take_damage(attack_damage, global_position)
+		if lifesteal > 0 and not dead:
+			heal(lifesteal)
 
 
 func _on_hit_zone_area_entered(area: Area2D) -> void:
@@ -163,6 +166,21 @@ func take_damage(dmg: int, from_pos: Vector2) -> void:
 func heal(amount: int) -> void:
 	health = mini(max_health, health + amount)
 	health_changed.emit(health)
+
+
+## Applied by the arena's _ready from the run state: every buff the keeper
+## has collected on this descent. Healing to the new max is part of the pick.
+func apply_buffs(buffs: Dictionary) -> void:
+	max_health += buffs.get("hp", 0)
+	attack_damage += buffs.get("damage", 0)
+	max_stamina += buffs.get("stamina", 0.0)
+	attack_stamina_cost = maxf(5.0, attack_stamina_cost - buffs.get("stamina_discount", 0.0))
+	attack_cooldown = maxf(0.25, attack_cooldown - buffs.get("cooldown", 0.0))
+	speed += buffs.get("speed", 0.0)
+	stamina_regen *= 1.0 + buffs.get("regen", 0.0)
+	lifesteal = buffs.get("lifesteal", 0)
+	attack_box.scale = Vector2(1.0 + buffs.get("reach", 0.0), 1.0)
+	health = max_health
 
 
 func die() -> void:

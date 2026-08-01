@@ -1,23 +1,22 @@
 extends CharacterBody2D
 
-## The Captain — first boss of the descent. A drowned shipmaster who refuses
-## to abandon his wreck. Teaches the core lesson: watch the telegraph, dodge,
-## punish. At half health he enters phase 2: faster recoveries and a new move
-## (the broadside sweep).
+## The Tidesworn — second boss of the descent. A coral-and-iron colossus,
+## half-grown into the sea floor. Teaches POSITIONING: when the ground
+## glows red, you were standing somewhere you should not be. Phase 2 at
+## half health: the ground remembers twice, and the charge comes faster.
 
 signal died
 signal hit_taken
 signal big_attack
 
-enum State { IDLE, TELEGRAPH_LUNGE, LUNGE, TELEGRAPH_SLAM, SLAM, TELEGRAPH_SWEEP, SWEEP, RECOVER, DEAD }
+enum State { IDLE, TELEGRAPH_ERUPT, ERUPT, TELEGRAPH_SWEEP, SWEEP, TELEGRAPH_CHARGE, CHARGE, RECOVER, DEAD }
 
-@export var max_hp := 10
-@export var walk_speed := 70.0
-@export var lunge_speed := 430.0
+@export var max_hp := 14
+@export var walk_speed := 45.0
+@export var charge_speed := 380.0
 @export var touch_damage := 1
 @export var gravity := 1100.0
-@export var attack_range := 480.0
-@export var slam_range := 170.0
+@export var attack_range := 520.0
 
 var hp: int
 var phase := 1
@@ -34,7 +33,7 @@ var fight_id := 0
 @onready var body: Polygon2D = $Body
 @onready var hurt_box: Area2D = $HurtBox
 @onready var touch_box: Area2D = $TouchBox
-@onready var slam_zone: Polygon2D = $SlamZone
+@onready var erupt_zone: Polygon2D = $EruptZone
 @onready var sweep_box: Area2D = $SweepBox
 
 
@@ -79,29 +78,22 @@ func _face(player: Node2D) -> void:
 	if player.global_position.x != global_position.x:
 		facing = Vector2(signf(player.global_position.x - global_position.x), 0.0)
 	body.scale.x = facing.x
-	slam_zone.position.x = 80.0 * facing.x
-	sweep_box.position.x = 80.0 * facing.x
+	sweep_box.position.x = 65.0 * facing.x
 
 
 func _try_attack(player: Node2D) -> void:
 	busy = true
 	attack_count += 1
 	var fid := fight_id
-	var pick: int
-	if phase == 1:
-		pick = randi() % 2   # lunge or slam
-	else:
-		pick = randi() % 3   # lunge, slam, or broadside sweep
-	match pick:
+	match randi() % 3:
 		0:
-			await _lunge(player, fid)
+			await _eruption(player, fid)
 		1:
-			await _slam(player, fid)
-		_:
 			await _sweep(player, fid)
+		_:
+			await _charge(player, fid)
 	if fid != fight_id or dead:
 		return
-	# Punish window, then he resets to idle.
 	state = State.RECOVER
 	await get_tree().create_timer(0.5).timeout
 	if fid != fight_id or dead:
@@ -110,47 +102,40 @@ func _try_attack(player: Node2D) -> void:
 	state = State.IDLE
 
 
-func _lunge(player: Node2D, fid: int) -> void:
-	_face(player)
-	state = State.TELEGRAPH_LUNGE
-	body.modulate = Color(1.6, 1.6, 1.6)
-	await get_tree().create_timer(0.45).timeout
-	if fid != fight_id or dead:
-		return
-	body.modulate = Color.WHITE
-	state = State.LUNGE
-	velocity.x = facing.x * lunge_speed
-	await get_tree().create_timer(0.5).timeout
-	if fid != fight_id or dead:
-		return
-	velocity.x = 0.0
-	state = State.RECOVER
-	await get_tree().create_timer(0.7 if phase == 1 else 0.5).timeout
-	if fid != fight_id or dead:
-		return
+func _player_in_zone(player: Node2D, zone_x: float) -> bool:
+	return absf(player.global_position.x - zone_x) < 55.0 and player.global_position.y > 520.0
 
 
-func _slam(player: Node2D, fid: int) -> void:
-	_face(player)
-	state = State.TELEGRAPH_SLAM
-	body.modulate = Color(1.6, 1.6, 1.6)
-	slam_zone.visible = true
-	await get_tree().create_timer(0.55).timeout
+func _erupt_at(player: Node2D, zone_x: float, wait: float, fid: int) -> void:
+	erupt_zone.position.x = zone_x
+	erupt_zone.visible = true
+	await get_tree().create_timer(wait).timeout
 	if fid != fight_id or dead:
 		return
-	body.modulate = Color.WHITE
-	slam_zone.visible = false
-	state = State.SLAM
-	# The red zone marks exactly where the slam lands.
+	erupt_zone.visible = false
+	state = State.ERUPT
 	big_attack.emit()
-	var offset: Vector2 = player.global_position - global_position
-	if absf(offset.y) < 70.0 and offset.x * facing.x > -30.0 and offset.x * facing.x < slam_range:
+	if _player_in_zone(player, zone_x):
 		player.take_damage(touch_damage, global_position)
-	await get_tree().create_timer(0.3).timeout
+
+
+func _eruption(player: Node2D, fid: int) -> void:
+	_face(player)
+	state = State.TELEGRAPH_ERUPT
+	body.modulate = Color(1.6, 1.6, 1.6)
+	# The ground glows where the keeper stands — move.
+	await _erupt_at(player, player.global_position.x, 0.65, fid)
 	if fid != fight_id or dead:
 		return
+	if phase == 2:
+		# The sea remembers twice.
+		body.modulate = Color(1.6, 1.6, 1.6)
+		await _erupt_at(player, player.global_position.x, 0.45, fid)
+		if fid != fight_id or dead:
+			return
+	body.modulate = Color.WHITE
 	state = State.RECOVER
-	await get_tree().create_timer(0.9 if phase == 1 else 0.65).timeout
+	await get_tree().create_timer(0.8 if phase == 1 else 0.6).timeout
 	if fid != fight_id or dead:
 		return
 
@@ -161,15 +146,15 @@ func _sweep(player: Node2D, fid: int) -> void:
 	body.modulate = Color(1.6, 1.6, 1.6)
 	sweep_box.monitoring = true
 	sweep_box.visible = true
-	await get_tree().create_timer(0.5).timeout
+	await get_tree().create_timer(0.55).timeout
 	if fid != fight_id or dead:
 		return
 	body.modulate = Color.WHITE
 	state = State.SWEEP
-	# The sweep damages once per victim while the blade is out.
 	big_attack.emit()
+	# The coral claws rake once per victim while out.
 	var victims: Array[Node] = []
-	for i in 8:
+	for i in 10:
 		await get_tree().create_timer(0.05).timeout
 		if fid != fight_id or dead:
 			return
@@ -180,6 +165,28 @@ func _sweep(player: Node2D, fid: int) -> void:
 				victim.take_damage(touch_damage, global_position)
 	sweep_box.monitoring = false
 	sweep_box.visible = false
+	state = State.RECOVER
+	await get_tree().create_timer(0.9 if phase == 1 else 0.7).timeout
+	if fid != fight_id or dead:
+		return
+
+
+func _charge(player: Node2D, fid: int) -> void:
+	_face(player)
+	state = State.TELEGRAPH_CHARGE
+	body.modulate = Color(1.6, 1.6, 1.6)
+	await get_tree().create_timer(0.5).timeout
+	if fid != fight_id or dead:
+		return
+	body.modulate = Color.WHITE
+	state = State.CHARGE
+	big_attack.emit()
+	var speed: float = charge_speed * (1.0 if phase == 1 else 1.2)
+	velocity.x = facing.x * speed
+	await get_tree().create_timer(0.75).timeout
+	if fid != fight_id or dead:
+		return
+	velocity.x = 0.0
 	state = State.RECOVER
 	await get_tree().create_timer(0.9 if phase == 1 else 0.7).timeout
 	if fid != fight_id or dead:
@@ -222,7 +229,7 @@ func die() -> void:
 	touch_box.set_deferred("monitoring", false)
 	sweep_box.monitoring = false
 	sweep_box.visible = false
-	slam_zone.visible = false
+	erupt_zone.visible = false
 	died.emit()
 
 
@@ -231,8 +238,9 @@ func die() -> void:
 func scale_for_lap(lap: int) -> void:
 	if lap <= 1:
 		return
-	max_hp = 10 + (lap - 1) * 2
-	walk_speed = 70.0 * (1.0 + 0.08 * float(lap - 1))
+	max_hp = 14 + (lap - 1) * 2
+	walk_speed = 45.0 * (1.0 + 0.08 * float(lap - 1))
+	charge_speed = 380.0 * (1.0 + 0.05 * float(lap - 1))
 	hp = max_hp
 
 
@@ -248,7 +256,7 @@ func reset_state() -> void:
 	body.visible = true
 	body.modulate = Color.WHITE
 	body.scale.x = facing.x
-	slam_zone.visible = false
+	erupt_zone.visible = false
 	sweep_box.monitoring = false
 	sweep_box.visible = false
 	hurt_box.set_deferred("monitoring", true)

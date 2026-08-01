@@ -1,23 +1,34 @@
 extends Node2D
 
-## The Captain's arena — the first fight of the descent. HUD, death reset
-## (the fight restarts when the keeper falls), and the victory beat.
+## A boss arena — one fight of the descent. Wires the run (autoload Run) to
+## the fight: the boss is scaled for the lap, the keeper gets her buffs, a
+## victory offers three upgrade cards, and a death ends the run.
 
 @onready var player: CharacterBody2D = $Player
-@onready var captain: CharacterBody2D = $Captain
+@onready var boss: Node2D = $Boss
 @onready var hp_label: Label = $UI/HP
 @onready var stamina_fill: ColorRect = $UI/StaminaBG/Fill
 @onready var death_label: Label = $UI/DeathLabel
 @onready var victory_label: Label = $UI/VictoryLabel
+@onready var run_label: Label = $UI/RunLabel
+@onready var card_panel: VBoxContainer = $UI/CardPanel
+@onready var card_buttons: Array[Button] = [$UI/CardPanel/Card1, $UI/CardPanel/Card2, $UI/CardPanel/Card3]
 
 
 func _ready() -> void:
+	if not Run.run_active:
+		Run.init_run()
+	boss.scale_for_lap(Run.lap)
+	player.apply_buffs(Run.buffs)
 	player.health_changed.connect(_on_health_changed)
 	player.stamina_changed.connect(_on_stamina_changed)
 	player.died.connect(_on_player_died)
-	captain.died.connect(_on_captain_died)
+	boss.died.connect(_on_boss_died)
+	boss.hit_taken.connect(_on_boss_hit)
+	boss.big_attack.connect(_on_boss_big_attack)
 	_on_health_changed(player.health)
 	_on_stamina_changed(player.stamina)
+	run_label.text = "Lap %d · Salt %d · %d upgrades" % [Run.lap, Run.salt, Run.buffs.size()]
 	# The arena is 0..1400 — clamp the keeper's camera to it.
 	var cam: Camera2D = player.get_node("Camera2D")
 	cam.limit_left = 0
@@ -34,13 +45,52 @@ func _on_stamina_changed(value: float) -> void:
 	stamina_fill.size.x = 200.0 * clampf(value / player.max_stamina, 0.0, 1.0)
 
 
+func _on_boss_hit() -> void:
+	_shake(3.0)
+
+
+func _on_boss_big_attack() -> void:
+	_shake(6.0)
+
+
+func _shake(amount: float) -> void:
+	var cam: Camera2D = player.get_node("Camera2D")
+	var tween := create_tween()
+	for i in 6:
+		tween.tween_callback(cam.set_offset.bind(Vector2(randf_range(-amount, amount), randf_range(-amount, amount))))
+		tween.tween_interval(0.03)
+	tween.tween_callback(cam.set_offset.bind(Vector2.ZERO))
+
+
+## The keeper fell — the run is over. Salt survives; the descent restarts.
 func _on_player_died() -> void:
+	Run.record_death()
+	death_label.text = "YOU DIED\nRUN OVER — Salt %d" % Run.salt
 	death_label.visible = true
-	await get_tree().create_timer(2.0).timeout
-	captain.reset_state()
-	player.reset()
+	await get_tree().create_timer(2.5).timeout
 	death_label.visible = false
+	Run.restart_run()
 
 
-func _on_captain_died() -> void:
+## The boss fell — victory: salt, then three upgrade cards.
+func _on_boss_died() -> void:
+	Run.record_victory()
 	victory_label.visible = true
+	run_label.text = "Lap %d · Salt %d · %d upgrades" % [Run.lap, Run.salt, Run.buffs.size()]
+	var picks: Array[String] = Run.draw_cards(3)
+	for i in 3:
+		var btn: Button = card_buttons[i]
+		var info: Dictionary = Run.card_info(picks[i])
+		btn.text = "%s\n%s" % [info.title, info.desc]
+		btn.visible = true
+		btn.pressed.connect(_on_card_pressed.bind(picks[i]))
+	card_panel.visible = true
+
+
+func _on_card_pressed(id: String) -> void:
+	for btn: Button in card_buttons:
+		btn.visible = false
+	card_panel.visible = false
+	victory_label.text = "THE DESCENT OPENS"
+	Run.apply_card(id)
+	Run.advance()
