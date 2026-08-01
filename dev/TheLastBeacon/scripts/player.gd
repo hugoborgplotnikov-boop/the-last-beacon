@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 ## Drill 1 player: movement, jump, roll (i-frames), greatsword attack.
-## The Last Beacon — the keeper.
+## The Last Beacon — the hero.
 
 signal health_changed(hp: int)
 signal stamina_changed(value: float)
@@ -117,7 +117,7 @@ func start_attack() -> void:
 	attack_box.position = Vector2(20.0 * facing.x, 0.0)
 	attack_box.monitoring = true
 	# The greatsword chops: a single outward arc — from rest, the blade
-	# accelerates forward-down, away from the keeper. The angle flips with
+	# accelerates forward-down, away from the hero. The angle flips with
 	# facing (scale.x = -1 mirrors the blade's content but NOT the rotation
 	# direction — Godot applies rotation after scale).
 	sword.rotation = 0.0
@@ -168,8 +168,8 @@ func heal(amount: int) -> void:
 	health_changed.emit(health)
 
 
-## Applied by the arena's _ready from the run state: every buff the keeper
-## has collected on this descent. Healing to the new max is part of the pick.
+## Applied by the arena's _ready from the run state: every buff the hero
+## has collected on this gauntlet. Healing to the new max is part of the pick.
 func apply_buffs(buffs: Dictionary) -> void:
 	max_health += buffs.get("hp", 0)
 	attack_damage += buffs.get("damage", 0)

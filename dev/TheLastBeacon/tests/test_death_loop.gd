@@ -31,10 +31,10 @@ func _physics_process(_delta: float) -> bool:
 			player.velocity = Vector2.ZERO
 			print("  maul begins, health=", player.health)
 		400:
-			h.check(min_health == 0, "the keeper died")
-			h.check(not player.visible, "keeper is hidden while dead")
+			h.check(min_health == 0, "the hero died")
+			h.check(not player.visible, "hero is hidden while dead")
 		500:
-			h.check(player.visible, "keeper is visible after respawn")
+			h.check(player.visible, "hero is visible after respawn")
 			h.check(player.health == player.max_health, "full health after respawn")
 			h.check(player.global_position.distance_to(SPAWN) < 150.0, "respawned at the beacon")
 			quit(0 if h.summary() else 1)

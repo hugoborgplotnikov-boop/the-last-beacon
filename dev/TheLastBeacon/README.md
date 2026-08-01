@@ -1,8 +1,9 @@
 # The Last Beacon — Prototype: The Run Loop
 
-A boss-gauntlet roguelike. Fight the drowned Captain and the Tidesworn,
-pick upgrade cards between fights, and descend deeper each lap — until you
-fall, and the descent starts again (salt survives).
+A boss-gauntlet roguelike. You are the last beacon of a falling world —
+fight the Captain and the Bastion, pick upgrade cards between fights, and
+each lap the champions come back meaner. Die, and the gauntlet starts again
+(shards survive).
 
 ## How to run
 

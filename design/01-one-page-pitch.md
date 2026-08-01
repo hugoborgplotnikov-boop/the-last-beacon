@@ -1,4 +1,9 @@
-# One-Page Pitch — "The Last Beacon"
+# One-Page Pitch (v1) — Lighthouse Keeper — RETIRED
+
+> **RETIRED 2026-08-01 (user decision):** the game has nothing to do with a
+> lighthouse keeper. This document is preserved as the historical autopsy of
+> the v1 concept only. The live concept is design/03-boss-gauntlet-pitch.md:
+> The Last Beacon = a HERO, the last line of defense for a falling world.
 
 > **Status:** Concept + title locked (2026-07-31). Alt titles considered: The Light Beneath · Dead Reckoning.
 > **Title rationale:** the keeper is the last line of defense — the world's final light. Player is a guardian, not a survivor.

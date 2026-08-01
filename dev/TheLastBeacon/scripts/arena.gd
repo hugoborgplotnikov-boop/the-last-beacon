@@ -1,7 +1,7 @@
 extends Node2D
 
-## A boss arena — one fight of the descent. Wires the run (autoload Run) to
-## the fight: the boss is scaled for the lap, the keeper gets her buffs, a
+## A boss arena — one fight of the gauntlet. Wires the run (autoload Run) to
+## the fight: the boss is scaled for the lap, the hero gets her buffs, a
 ## victory offers three upgrade cards, and a death ends the run.
 
 @onready var player: CharacterBody2D = $Player
@@ -18,6 +18,9 @@ extends Node2D
 @onready var boss_name_label: Label = $UI/BossName
 
 
+var victory_shown := false
+
+
 func _ready() -> void:
 	if not Run.run_active:
 		Run.init_run()
@@ -31,9 +34,9 @@ func _ready() -> void:
 	boss.big_attack.connect(_on_boss_big_attack)
 	_on_health_changed(player.health)
 	_on_stamina_changed(player.stamina)
-	run_label.text = "Lap %d · Salt %d · %d upgrades" % [Run.lap, Run.salt, Run.buffs.size()]
+	run_label.text = "Lap %d · Shards %d · %d upgrades" % [Run.lap, Run.shards, Run.buffs.size()]
 	boss_name_label.text = boss.boss_name
-	# The arena is 0..1400 — clamp the keeper's camera to it.
+	# The arena is 0..1400 — clamp the hero's camera to it.
 	var cam: Camera2D = player.get_node("Camera2D")
 	cam.limit_left = 0
 	cam.limit_right = 1400
@@ -73,21 +76,25 @@ func _shake(amount: float) -> void:
 	tween.tween_callback(cam.set_offset.bind(Vector2.ZERO))
 
 
-## The keeper fell — the run is over. Salt survives; the descent restarts.
+## The hero fell — the run is over. Shards survive; the gauntlet restarts.
 func _on_player_died() -> void:
 	Run.record_death()
-	death_label.text = "YOU DIED\nRUN OVER — Salt %d" % Run.salt
+	death_label.text = "YOU DIED\nRUN OVER — Shards %d" % Run.shards
 	death_label.visible = true
 	await get_tree().create_timer(2.5).timeout
 	death_label.visible = false
 	Run.restart_run()
 
 
-## The boss fell — victory: salt, then three upgrade cards.
+## The boss fell — victory: shards, then three upgrade cards.
+## Guarded: a stray second death event must not double-award or double-connect.
 func _on_boss_died() -> void:
+	if victory_shown:
+		return
+	victory_shown = true
 	Run.record_victory()
 	victory_label.visible = true
-	run_label.text = "Lap %d · Salt %d · %d upgrades" % [Run.lap, Run.salt, Run.buffs.size()]
+	run_label.text = "Lap %d · Shards %d · %d upgrades" % [Run.lap, Run.shards, Run.buffs.size()]
 	var picks: Array[String] = Run.draw_cards(3)
 	for i in 3:
 		var btn: Button = card_buttons[i]
@@ -102,6 +109,6 @@ func _on_card_pressed(id: String) -> void:
 	for btn: Button in card_buttons:
 		btn.visible = false
 	card_panel.visible = false
-	victory_label.text = "THE DESCENT OPENS"
+	victory_label.text = "THE GAUNTLET OPENS"
 	Run.apply_card(id)
 	Run.advance()

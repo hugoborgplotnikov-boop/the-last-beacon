@@ -1,7 +1,7 @@
 extends SceneTree
 ## test_platforms.gd — level geometry sanity (deterministic, no input
 ## simulation): platforms don't overlap, are inside the arena, their collision
-## matches their visuals, and Platform3 is floor-reachable within the keeper's
+## matches their visuals, and Platform3 is floor-reachable within the hero's
 ## double-jump arc. (The jump arc itself is exercised in test_movement.)
 
 const HARNESS = preload("res://tests/harness.gd")

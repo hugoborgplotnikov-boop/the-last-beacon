@@ -1,19 +1,19 @@
 extends Node
 
-## Run — the gauntlet's brain (autoload). Holds the run state (lap, salt,
+## Run — the gauntlet's brain (autoload). Holds the run state (lap, shards,
 ## buffs), the boss rotation, and the upgrade-card pool. Arenas read the run
-## state in _ready and report victories/deaths back here.
+## state in _ready and report victories and deaths back here.
 
 const BOSS_ROTATION: Array[String] = [
 	"res://scenes/captain_arena.tscn",
-	"res://scenes/tidesworn_arena.tscn",
+	"res://scenes/bastion_arena.tscn",
 ]
 
 ## Card pool: id -> {title, desc, buffs} — buffs accumulate per run and are
-## applied to the keeper by the arena's _ready.
+## applied to the hero by the arena's _ready.
 const CARDS := {
 	"tempered_steel": {"title": "Tempered Steel", "desc": "+1 damage per swing", "buffs": {"damage": 1}},
-	"keepers_vigor": {"title": "Keeper's Vigor", "desc": "+1 max health", "buffs": {"hp": 1}},
+	"heros_vigor": {"title": "Hero's Vigor", "desc": "+1 max health", "buffs": {"hp": 1}},
 	"stamina_well": {"title": "Stamina Well", "desc": "+25 max stamina", "buffs": {"stamina": 25.0}},
 	"second_wind": {"title": "Second Wind", "desc": "attacks cost 5 less stamina", "buffs": {"stamina_discount": 5.0}},
 	"lifeleech": {"title": "Lifeleech", "desc": "every hit heals 1 HP", "buffs": {"lifesteal": 1}},
@@ -24,7 +24,7 @@ const CARDS := {
 }
 
 var lap := 1
-var salt := 0
+var shards := 0
 var boss_index := 0
 var buffs: Dictionary = {}
 var run_active := false
@@ -46,7 +46,7 @@ func current_arena() -> String:
 
 
 func record_victory() -> void:
-	salt += 3
+	shards += 3
 
 
 func record_death() -> void:

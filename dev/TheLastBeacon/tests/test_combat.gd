@@ -44,6 +44,6 @@ func _physics_process(_delta: float) -> bool:
 		300:
 			h.check(enemy1.dead, "grunt died within the attack windows")
 		400:
-			h.check(player.health > 0, "keeper survived the fight")
+			h.check(player.health > 0, "hero survived the fight")
 			quit(0 if h.summary() else 1)
 	return false

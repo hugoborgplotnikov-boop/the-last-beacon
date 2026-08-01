@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3]
 
-[ext_resource type="Script" path="res://scripts/tidesworn.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/bastion.gd" id="1"]
 
 [sub_resource type="RectangleShape2D" id="Rect_body"]
 size = Vector2(30, 46)
@@ -14,7 +14,7 @@ size = Vector2(34, 50)
 [sub_resource type="RectangleShape2D" id="Rect_sweep"]
 size = Vector2(110, 46)
 
-[node name="Tidesworn" type="CharacterBody2D"]
+[node name="Bastion" type="CharacterBody2D"]
 collision_layer = 4
 collision_mask = 1
 script = ExtResource("1")
@@ -23,14 +23,14 @@ script = ExtResource("1")
 color = Color(0.22, 0.24, 0.3, 1)
 polygon = PackedVector2Array(-15, -23, 15, -23, 15, 23, -15, 23)
 
-[node name="CoralPlate" type="Polygon2D" parent="Body"]
+[node name="Plate" type="Polygon2D" parent="Body"]
 position = Vector2(-6, -10)
-color = Color(0.55, 0.25, 0.2, 1)
+color = Color(0.4, 0.42, 0.48, 1)
 polygon = PackedVector2Array(-9, -12, 4, -12, 6, 2, -9, 2)
 
 [node name="Crown" type="Polygon2D" parent="Body"]
 position = Vector2(0, -25)
-color = Color(0.7, 0.3, 0.22, 1)
+color = Color(0.45, 0.47, 0.55, 1)
 polygon = PackedVector2Array(-10, -6, -4, -14, 0, -6, 5, -15, 10, -6)
 
 [node name="Eye" type="Polygon2D" parent="Body"]

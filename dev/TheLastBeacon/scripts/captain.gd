@@ -1,9 +1,10 @@
 extends CharacterBody2D
 
-## The Captain — first boss of the descent. A drowned shipmaster who refuses
-## to abandon his wreck. Teaches the core lesson: watch the telegraph, dodge,
-## punish. At half health he enters phase 2: faster recoveries and a new move
-## (the broadside sweep).
+## The Captain — first trial of the gauntlet. A warlord who held the first
+## line until the dark took him — he still fights as if the wall depends on
+## it. Teaches the core lesson: watch the telegraph, dodge, punish. At half
+## health he enters phase 2: faster recoveries and a new move (the broadside
+## sweep).
 
 signal died
 signal hit_taken
@@ -66,7 +67,7 @@ func _physics_process(delta: float) -> void:
 			velocity.x = 0.0
 	move_and_slide()
 
-	# Contact damage ticks while the keeper is in reach — hugging must hurt.
+	# Contact damage ticks while the hero is in reach — hugging must hurt.
 	touch_cooldown = maxf(touch_cooldown - delta, 0.0)
 	if touch_cooldown <= 0.0:
 		for area in touch_box.get_overlapping_areas():
@@ -188,7 +189,7 @@ func _sweep(player: Node2D, fid: int) -> void:
 
 
 func take_damage(dmg: int, from_pos: Vector2) -> void:
-	if dead:
+	if dead or hp <= 0:
 		return
 	hp -= dmg
 	# Bosses barely flinch.
@@ -227,7 +228,7 @@ func die() -> void:
 	died.emit()
 
 
-## Each lap of the descent makes the boss meaner. Called by the arena's
+## Each lap of the gauntlet makes the boss meaner. Called by the arena's
 ## _ready with the current lap (1 = first fight, unchanged).
 func scale_for_lap(lap: int) -> void:
 	if lap <= 1:

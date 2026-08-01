@@ -1,6 +1,6 @@
 extends Node2D
 
-## Drill 1 world: a dark cave. Darkness everywhere, light where the keeper walks.
+## The training cave — where the hero first learned to fight.
 
 @onready var player: CharacterBody2D = $Player
 @onready var hp_label: Label = $UI/HP

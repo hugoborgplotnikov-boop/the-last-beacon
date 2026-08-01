@@ -1,4 +1,11 @@
-# The Last Beacon — Game Design Document v1
+# The Last Beacon — Game Design Document v1 — RETIRED
+
+> **RETIRED 2026-08-01 (user decision):** the lighthouse-keeper setting is
+> gone — the game has nothing to do with it. This document is preserved as
+> the historical autopsy of the v1 concept only. The live concept:
+> design/03-boss-gauntlet-pitch.md — The Last Beacon = a HERO, the last
+> line of defense for a falling world. (Hero + greatsword survived the
+> pivot; keeper, lantern, embers, and the drowned world did not.)
 
 *Status: v1 draft · 2026-08-01 · Companion to design/01-one-page-pitch.md · The playable slice (dev/TheLastBeacon) already proves the movement, combat, light, and death-loop pillars described here.*
 
@@ -126,11 +133,11 @@ Six, per the scope guardrail (6–8). One-sentence designs — full move lists a
 
 ## 13. What's Already Proven (slice inventory)
 
-Walk/jump/double-jump · roll + i-frames + stamina · greatsword attack (swing animation) · grunt AI (chase/contact/knockback/respawn) · death → respawn at Beacon, world reset · bright visible cave · camera follow with cave limits · platforms with honest collision · **the run loop: 9 upgrade cards + salt + lap scaling (run.gd)** · **two bosses: the Captain (lunge/slam/sweep, phase 2) and the Tidesworn (eruption/sweep/charge, phase 2)** · hit-stop + screen shake · 7-test automated suite + hook.
+Walk/jump/double-jump · roll + i-frames + stamina · greatsword attack (swing animation) · grunt AI (chase/contact/knockback/respawn) · death → respawn, world reset · bright visible cave · camera follow with cave limits · platforms with honest collision · **the run loop: 9 upgrade cards + shards + lap scaling (run.gd)** · **two bosses: the Captain (lunge/slam/sweep, phase 2) and the Bastion (eruption/sweep/charge, phase 2)** · hit-stop + screen shake · 9-test automated suite + hook.
 
-**Next build step:** the meta-currency shop — spend salt between runs on
+**Next build step:** the shards shop — spend the meta-currency between runs on
 permanent unlocks (max HP, starting cards, new moves), then boss #3 (the
-Keeper of the Old Lamp, the mirror fight).
+Fallen Beacon, the mirror fight).
 
 ## 14. Open Design Questions (deferred — not blockers)
 

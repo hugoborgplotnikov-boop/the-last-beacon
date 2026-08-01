@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
-## Drowned Grunt — chases the keeper, hurts on contact, and respawns after a
-## while. The dark is their ally.
+## Hollow Grunt — chases the hero, hurts on contact, and respawns after a
+## while. One of the fallen masses.
 
 signal died
 
@@ -53,7 +53,7 @@ func _physics_process(delta: float) -> void:
 		velocity.x = 0.0
 	move_and_slide()
 
-	# Contact damage ticks while the keeper is in reach — hugging must hurt.
+	# Contact damage ticks while the hero is in reach — hugging must hurt.
 	touch_cooldown = maxf(touch_cooldown - delta, 0.0)
 	if touch_cooldown <= 0.0:
 		for area in touch_box.get_overlapping_areas():
@@ -64,7 +64,7 @@ func _physics_process(delta: float) -> void:
 
 
 func take_damage(dmg: int, from_pos: Vector2) -> void:
-	if dead:
+	if dead or hp <= 0:
 		return
 	hp -= dmg
 	var dir := (global_position - from_pos).normalized()

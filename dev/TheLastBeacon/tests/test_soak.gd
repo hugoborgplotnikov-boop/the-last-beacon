@@ -1,7 +1,7 @@
 extends SceneTree
 ## test_soak.gd — a scripted end-to-end playthrough. Exercises the REAL
 ## runtime paths the player uses: scene changes via change_scene_to_file,
-## victory -> cards -> pick (signal) -> advance, lap scaling, salt
+## victory -> cards -> pick (signal) -> advance, lap scaling, shards
 ## accumulation, and death -> run restart. Direct damage stands in for
 ## fighting (the fight feel itself is covered by test_captain/combat).
 
@@ -43,22 +43,22 @@ func _physics_process(_delta: float) -> bool:
 		2:
 			if frames >= 25:
 				h.check(arena.card_panel.visible, "soak: cards offered after victory")
-				h.check(run.salt == 3, "soak: salt granted (3)")
+				h.check(run.shards == 3, "soak: shards granted (3)")
 				# Pick the FIRST card through its real signal path.
 				arena.card_buttons[0].pressed.emit()
 				phase = 3
 		3:
-			# The advance should carry us to the Tidesworn's arena.
-			_wait_for_arena("res://scenes/tidesworn_arena.tscn")
+			# The advance should carry us to the Bastion's arena.
+			_wait_for_arena("res://scenes/bastion_arena.tscn")
 			phase = 4
 		4:
 			h.check(run.buffs.size() == 1, "soak: card buff carried into the next arena")
-			h.check(run.lap == 1 and run.boss_index == 1, "soak: rotation at tidesworn, lap 1")
+			h.check(run.lap == 1 and run.boss_index == 1, "soak: rotation at bastion, lap 1")
 			boss.take_damage(99, boss.global_position + Vector2(10, 0))
 			phase = 5
 		5:
 			if frames >= 25:
-				h.check(run.salt == 6, "soak: second victory salted (6)")
+				h.check(run.shards == 6, "soak: second victory sharded (6)")
 				arena.card_buttons[0].pressed.emit()
 				phase = 6
 		6:
@@ -72,8 +72,8 @@ func _physics_process(_delta: float) -> bool:
 			phase = 8
 		8:
 			if frames >= 25:
-				h.check(run.salt == 9, "soak: third victory salted (9)")
-				# The keeper dies: the descent restarts fresh.
+				h.check(run.shards == 9, "soak: third victory sharded (9)")
+				# The hero dies: the gauntlet restarts fresh.
 				player.take_damage(99, player.global_position + Vector2(10, 0))
 				phase = 9
 		9:
@@ -87,7 +87,7 @@ func _physics_process(_delta: float) -> bool:
 			h.check(run.run_active, "soak: fresh run after death")
 			h.check(run.lap == 1, "soak: restart resets the lap")
 			h.check(run.buffs.is_empty(), "soak: restart clears buffs")
-			h.check(run.salt == 9, "soak: salt survived the death (9)")
+			h.check(run.shards == 9, "soak: shards survived the death (9)")
 			quit(0 if h.summary() else 1)
 	return false
 

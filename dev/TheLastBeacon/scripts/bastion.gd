@@ -1,9 +1,9 @@
 extends CharacterBody2D
 
-## The Tidesworn — second boss of the descent. A coral-and-iron colossus,
-## half-grown into the sea floor. Teaches POSITIONING: when the ground
-## glows red, you were standing somewhere you should not be. Phase 2 at
-## half health: the ground remembers twice, and the charge comes faster.
+## The Bastion — second trial of the gauntlet. A colossus of stone and iron,
+## the last wall that fell. Teaches POSITIONING: when the ground glows red,
+## you were standing somewhere you should not be. Phase 2 at half health:
+## the ground remembers twice, and the charge comes faster.
 
 signal died
 signal hit_taken
@@ -12,7 +12,7 @@ signal big_attack
 enum State { IDLE, TELEGRAPH_ERUPT, ERUPT, TELEGRAPH_SWEEP, SWEEP, TELEGRAPH_CHARGE, CHARGE, RECOVER, DEAD }
 
 @export var max_hp := 14
-@export var boss_name := "THE TIDESWORN"
+@export var boss_name := "THE BASTION"
 @export var walk_speed := 45.0
 @export var charge_speed := 380.0
 @export var touch_damage := 1
@@ -65,7 +65,7 @@ func _physics_process(delta: float) -> void:
 			velocity.x = 0.0
 	move_and_slide()
 
-	# Contact damage ticks while the keeper is in reach — hugging must hurt.
+	# Contact damage ticks while the hero is in reach — hugging must hurt.
 	touch_cooldown = maxf(touch_cooldown - delta, 0.0)
 	if touch_cooldown <= 0.0:
 		for area in touch_box.get_overlapping_areas():
@@ -124,7 +124,7 @@ func _eruption(player: Node2D, fid: int) -> void:
 	_face(player)
 	state = State.TELEGRAPH_ERUPT
 	body.modulate = Color(1.6, 1.6, 1.6)
-	# The ground glows where the keeper stands — move.
+	# The ground glows where the hero stands — move.
 	await _erupt_at(player, player.global_position.x, 0.65, fid)
 	if fid != fight_id or dead:
 		return
@@ -153,7 +153,7 @@ func _sweep(player: Node2D, fid: int) -> void:
 	body.modulate = Color.WHITE
 	state = State.SWEEP
 	big_attack.emit()
-	# The coral claws rake once per victim while out.
+	# The iron claws rake once per victim while out.
 	var victims: Array[Node] = []
 	for i in 10:
 		await get_tree().create_timer(0.05).timeout
@@ -195,7 +195,7 @@ func _charge(player: Node2D, fid: int) -> void:
 
 
 func take_damage(dmg: int, from_pos: Vector2) -> void:
-	if dead:
+	if dead or hp <= 0:
 		return
 	hp -= dmg
 	# Bosses barely flinch.
@@ -234,7 +234,7 @@ func die() -> void:
 	died.emit()
 
 
-## Each lap of the descent makes the boss meaner. Called by the arena's
+## Each lap of the gauntlet makes the boss meaner. Called by the arena's
 ## _ready with the current lap (1 = first fight, unchanged).
 func scale_for_lap(lap: int) -> void:
 	if lap <= 1:

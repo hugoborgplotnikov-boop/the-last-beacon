@@ -89,7 +89,7 @@
 ## Open Questions (remaining)
 
 1. **Setting / hook — v1 PARKED (2026-08-01):** "Lighthouse Keeper" open-world souls-like ("The Last Beacon") — light/flame twist cut by two playtests (too dark, resource pressure not fun). Autopsy: design/01-one-page-pitch.md + design/02-game-design-doc.md.
-2. **CONCEPT v2 LOCKED (2026-08-01):** "The Last Beacon" — **boss-gauntlet roguelike** (Furi × Hades), dark epic tone, readable arenas. Keeper + anchor + drowned world + title kept; lantern/embers gone. Pitch: design/03-boss-gauntlet-pitch.md.
+2. **CONCEPT v2 LOCKED (2026-08-01):** "The Last Beacon" — **boss-gauntlet roguelike** (Furi × Hades), dark epic tone, readable arenas. **The hero is the last world defence** (keeper/lighthouse lore retired same day by user decision — nothing keeper-related remains). Hero + greatsword + title kept. Bosses: the Captain, the Bastion, the Fallen Beacon, the Hollow Choir, the Bell of the Last Hour, the Night. Currency: shards. Pitch: design/03-boss-gauntlet-pitch.md.
 3. Buzz: hosted or self-hosted? Should Hermes join your Buzz workspace as an agent, or is Buzz for other people/agents only?
 
 ---
