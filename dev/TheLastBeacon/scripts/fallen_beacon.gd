@@ -48,7 +48,7 @@ const GUARD_TIME := 0.25
 var fight_id := 0
 
 @onready var body: Polygon2D = $Body
-@onready var eye: Polygon2D = $Body/Eye
+@onready var eye: Polygon2D = $Body/Helm/Eye
 @onready var sword: Polygon2D = $Body/Sword
 @onready var hurt_box: Area2D = $HurtBox
 @onready var touch_box: Area2D = $TouchBox

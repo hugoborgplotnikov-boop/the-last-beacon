@@ -22,23 +22,53 @@ script = ExtResource("3")
 
 [node name="Body" type="Node2D" parent="Boss"]
 
+[node name="Yoke" type="Polygon2D" parent="Boss/Body"]
+position = Vector2(0, -56)
+color = Color(0.3, 0.22, 0.12, 1)
+polygon = PackedVector2Array(-20, -6, 20, -6, 18, 4, -18, 4)
+
+[node name="Crown" type="Polygon2D" parent="Boss/Body"]
+position = Vector2(0, -50)
+color = Color(0.42, 0.36, 0.22, 1)
+polygon = PackedVector2Array(-18, -12, 18, -12, 24, 0, -24, 0)
+
 [node name="BellTop" type="Polygon2D" parent="Boss/Body"]
-color = Color(0.3, 0.24, 0.15, 1)
+color = Color(0.36, 0.29, 0.17, 1)
 polygon = PackedVector2Array(-36, -50, 36, -50, 40, 20, -40, 20)
+
+[node name="BellMid" type="Polygon2D" parent="Boss/Body"]
+position = Vector2(0, 2)
+color = Color(0.3, 0.24, 0.14, 1)
+polygon = PackedVector2Array(-40, -22, 40, -22, 44, 18, -44, 18)
 
 [node name="BellMouth" type="Polygon2D" parent="Boss/Body"]
 color = Color(0.25, 0.2, 0.12, 1)
 polygon = PackedVector2Array(-40, 20, 40, 20, 48, 48, -48, 48)
 
-[node name="Crown" type="Polygon2D" parent="Boss/Body"]
-position = Vector2(0, -50)
-color = Color(0.4, 0.34, 0.22, 1)
-polygon = PackedVector2Array(-18, -12, 18, -12, 24, 0, -24, 0)
+[node name="MouthRim" type="Polygon2D" parent="Boss/Body"]
+position = Vector2(0, 46)
+color = Color(0.48, 0.4, 0.24, 1)
+polygon = PackedVector2Array(-48, 0, 48, 0, 46, 4, -46, 4)
+
+[node name="Crack" type="Polygon2D" parent="Boss/Body"]
+position = Vector2(-8, 6)
+color = Color(0.16, 0.13, 0.08, 1)
+polygon = PackedVector2Array(0, -14, 3, -6, -2, 0, 4, 6, -1, 12, 2, 16)
+
+[node name="Patina" type="Polygon2D" parent="Boss/Body"]
+position = Vector2(16, -16)
+color = Color(0.2, 0.35, 0.28, 1)
+polygon = PackedVector2Array(-4, -4, 3, -5, 5, 1, 2, 5, -3, 3)
 
 [node name="Clapper" type="Polygon2D" parent="Boss"]
 position = Vector2(0, 44)
 color = Color(0.45, 0.38, 0.26, 1)
 polygon = PackedVector2Array(-3, -18, 3, -18, 3, 0, -3, 0)
+
+[node name="ClapperBall" type="Polygon2D" parent="Boss"]
+position = Vector2(0, 48)
+color = Color(0.52, 0.44, 0.3, 1)
+polygon = PackedVector2Array(-5, -5, 5, -5, 6, 0, 5, 5, -5, 5, -6, 0)
 
 [node name="HurtBox" type="Area2D" parent="Boss" groups=["enemy_hurtbox"]]
 collision_layer = 4
@@ -48,6 +78,31 @@ collision_mask = 8
 shape = SubResource("Circle_hurt")
 
 [node name="Floor" type="StaticBody2D" parent="."]
+[node name="StoneTop" type="Polygon2D" parent="Floor"]
+position = Vector2(0, -18)
+color = Color(0.6, 0.56, 0.44, 1)
+polygon = PackedVector2Array(-700, -4, 700, -4, 700, 4, -700, 4)
+
+[node name="StoneSide" type="Polygon2D" parent="Floor"]
+position = Vector2(0, -6)
+color = Color(0.32, 0.29, 0.23, 1)
+polygon = PackedVector2Array(-700, -10, 700, -10, 700, 12, -700, 12)
+
+[node name="Glyph1" type="Polygon2D" parent="Floor"]
+position = Vector2(-300, -12)
+color = Color(0.68, 0.64, 0.52, 1)
+polygon = PackedVector2Array(-6, -2, 6, -2, 6, 2, -6, 2)
+
+[node name="Glyph2" type="Polygon2D" parent="Floor"]
+position = Vector2(0, -12)
+color = Color(0.68, 0.64, 0.52, 1)
+polygon = PackedVector2Array(-6, -2, 6, -2, 6, 2, -6, 2)
+
+[node name="Glyph3" type="Polygon2D" parent="Floor"]
+position = Vector2(300, -12)
+color = Color(0.68, 0.64, 0.52, 1)
+polygon = PackedVector2Array(-6, -2, 6, -2, 6, 2, -6, 2)
+
 position = Vector2(700, 640)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
