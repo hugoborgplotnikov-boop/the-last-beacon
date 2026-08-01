@@ -11,4 +11,4 @@ func _ready() -> void:
 
 func _on_start_pressed() -> void:
 	Run.init_run()
-	get_tree().change_scene_to_file("res://scenes/captain_arena.tscn")
+	Fx.transition_to("res://scenes/captain_arena.tscn")

@@ -34,9 +34,28 @@ var cape_lag := 0.0
 
 const REST_Y := 0.0
 
+var _glow: Polygon2D
+var _glow_base_alpha := 0.08
+
+
+func _setup_glow() -> void:
+	_glow = Polygon2D.new()
+	_glow.name = "HeroGlow"
+	_glow.color = Color(1.0, 0.82, 0.4, _glow_base_alpha)
+	_glow.z_index = -5
+	var r := 62.0
+	var sides := 28
+	var pts: PackedVector2Array = PackedVector2Array()
+	for i in sides:
+		var a: float = TAU * i / float(sides)
+		pts.append(Vector2(cos(a) * r, sin(a) * 0.65 * r))
+	_glow.polygon = pts
+	add_child(_glow)
+
 
 func _ready() -> void:
 	hero = get_parent() as CharacterBody2D
+	_setup_glow()
 
 
 ## The greatsword is a sibling of this rig (player.gd owns its transform
@@ -119,6 +138,8 @@ func _process(delta: float) -> void:
 	_plant_hand_on_grip()
 
 	_apply_squash()
+	# The bloom halo pulses when the greatsword swings.
+	_update_glow()
 	cape.rotation = cape_lag * 0.5
 	cape.skew = clampf(cape_lag * 0.45, -0.6, 0.6)
 
@@ -229,6 +250,22 @@ func _pose_attack() -> void:
 	torso.rotation = 0.06 + arm * 0.16
 	head.rotation = arm * 0.1
 	back_arm.rotation = 0.5 - arm * 0.4
+
+
+## The hero's light burns brighter mid-combat — the glow pulses with the
+## swing and fades back to a restful shimmer.
+func _update_glow() -> void:
+	var target := _glow_base_alpha
+	if hero.is_attacking:
+		target = _glow_base_alpha + 0.22
+	elif hero.is_rolling:
+		target = _glow_base_alpha + 0.08
+	elif not hero.is_on_floor():
+		target = _glow_base_alpha + 0.05
+	elif absf(hero.velocity.x) > 8.0:
+		target = _glow_base_alpha + 0.03 + absf(sin(stride)) * 0.04
+	_glow.color.a = lerpf(_glow.color.a, target, 0.12)
+	_glow.visible = not hero.dead
 
 
 ## Landing squash, applied as a non-destructive scale on the visual root.

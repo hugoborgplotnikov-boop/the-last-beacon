@@ -92,14 +92,14 @@ func advance() -> void:
 	if boss_index >= BOSS_ROTATION.size():
 		boss_index = 0
 		lap += 1
-	get_tree().change_scene_to_file(current_arena())
+	Fx.transition_to(current_arena())
 
 
 ## The run is over: back to the main menu with the wallet intact.
 func restart_run() -> void:
 	init_run()
 	save_game()
-	get_tree().change_scene_to_file(SHOP_SCENE)
+	Fx.transition_to(SHOP_SCENE)
 
 
 func draw_cards(count := 3) -> Array[String]:

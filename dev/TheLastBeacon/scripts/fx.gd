@@ -11,6 +11,8 @@ var headless := false
 func _ready() -> void:
 	headless = DisplayServer.get_name() == "headless"
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	# The transition overlay — a full-screen ColorRect for fades.
+	_setup_transition()
 
 
 ## Where effects get parented: the current scene, so they inherit its camera.
@@ -112,3 +114,43 @@ func burst(at: Vector2, colour := Color(1.0, 0.8, 0.45)) -> void:
 	p.damping_max = 60.0
 	p.color = colour
 	_emit(p, at, p.lifetime)
+
+
+## ── TRANSITIONS ──────────────────────────────────
+
+var _transition_overlay: ColorRect
+var _transition_tween: Tween
+
+
+func _setup_transition() -> void:
+	var canvas := CanvasLayer.new()
+	canvas.name = "TransitionLayer"
+	canvas.layer = 100
+	add_child(canvas)
+	_transition_overlay = ColorRect.new()
+	_transition_overlay.name = "TransitionOverlay"
+	_transition_overlay.size = Vector2(1920, 1080)
+	_transition_overlay.color = Color(0, 0, 0, 0)
+	_transition_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	canvas.add_child(_transition_overlay)
+
+
+## Fade to black, switch scenes, fade back in.
+func transition_to(scene_path: String, duration := 0.35) -> void:
+	if headless:
+		get_tree().change_scene_to_file(scene_path)
+		return
+	if _transition_tween and _transition_tween.is_valid():
+		_transition_tween.kill()
+	_transition_overlay.color = Color(0, 0, 0, 0)
+	_transition_tween = create_tween()
+	_transition_tween.tween_property(_transition_overlay, "color", Color(0, 0, 0, 1), duration)
+	await _transition_tween.finished
+	get_tree().change_scene_to_file(scene_path)
+	# After the new scene loads, the overlay is still live (Fx is autoload).
+	# One frame to let the new scene set up, then fade out.
+	await get_tree().process_frame
+	await get_tree().process_frame
+	_transition_overlay.color = Color(0, 0, 0, 1)
+	var ft := create_tween()
+	ft.tween_property(_transition_overlay, "color", Color(0, 0, 0, 0), duration)
