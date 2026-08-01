@@ -13,6 +13,9 @@ extends Node2D
 @onready var run_label: Label = $UI/RunLabel
 @onready var card_panel: VBoxContainer = $UI/CardPanel
 @onready var card_buttons: Array[Button] = [$UI/CardPanel/Card1, $UI/CardPanel/Card2, $UI/CardPanel/Card3]
+@onready var boss_bar_bg: ColorRect = $UI/BossBG
+@onready var boss_bar_fill: ColorRect = $UI/BossBG/BossFill
+@onready var boss_name_label: Label = $UI/BossName
 
 
 func _ready() -> void:
@@ -29,12 +32,20 @@ func _ready() -> void:
 	_on_health_changed(player.health)
 	_on_stamina_changed(player.stamina)
 	run_label.text = "Lap %d · Salt %d · %d upgrades" % [Run.lap, Run.salt, Run.buffs.size()]
+	boss_name_label.text = boss.boss_name
 	# The arena is 0..1400 — clamp the keeper's camera to it.
 	var cam: Camera2D = player.get_node("Camera2D")
 	cam.limit_left = 0
 	cam.limit_right = 1400
 	cam.limit_top = 0
 	cam.limit_bottom = 720
+
+
+func _process(_delta: float) -> void:
+	# The boss's health, always readable.
+	var ratio := clampf(boss.hp / float(maxi(boss.max_hp, 1)), 0.0, 1.0)
+	boss_bar_fill.size.x = 296.0 * ratio
+	boss_bar_bg.visible = not boss.dead
 
 
 func _on_health_changed(hp: int) -> void:

@@ -12,6 +12,7 @@ signal big_attack
 enum State { IDLE, TELEGRAPH_LUNGE, LUNGE, TELEGRAPH_SLAM, SLAM, TELEGRAPH_SWEEP, SWEEP, RECOVER, DEAD }
 
 @export var max_hp := 10
+@export var boss_name := "THE CAPTAIN"
 @export var walk_speed := 70.0
 @export var lunge_speed := 430.0
 @export var touch_damage := 1

@@ -12,6 +12,7 @@ signal big_attack
 enum State { IDLE, TELEGRAPH_ERUPT, ERUPT, TELEGRAPH_SWEEP, SWEEP, TELEGRAPH_CHARGE, CHARGE, RECOVER, DEAD }
 
 @export var max_hp := 14
+@export var boss_name := "THE TIDESWORN"
 @export var walk_speed := 45.0
 @export var charge_speed := 380.0
 @export var touch_damage := 1

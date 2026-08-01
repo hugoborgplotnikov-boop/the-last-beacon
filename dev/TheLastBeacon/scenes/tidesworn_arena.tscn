@@ -160,6 +160,37 @@ theme_override_font_sizes/font_size = 18
 horizontal_alignment = 2
 text = "Lap 1 · Salt 0"
 
+[node name="BossBG" type="ColorRect" parent="UI"]
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -150.0
+offset_top = 24.0
+offset_right = 150.0
+offset_bottom = 42.0
+grow_horizontal = 2
+color = Color(0.1, 0.1, 0.13, 0.9)
+
+[node name="BossFill" type="ColorRect" parent="UI/BossBG"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 298.0
+offset_bottom = 16.0
+color = Color(0.85, 0.3, 0.25, 1)
+
+[node name="BossName" type="Label" parent="UI"]
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -200.0
+offset_top = 2.0
+offset_right = 200.0
+offset_bottom = 22.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.85, 0.8, 0.75, 1)
+theme_override_font_sizes/font_size = 16
+horizontal_alignment = 1
+text = "THE TIDESWORN"
+
 [node name="DeathLabel" type="Label" parent="UI"]
 visible = false
 anchors_preset = 8
