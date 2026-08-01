@@ -83,7 +83,7 @@ func _physics_process(_delta: float) -> bool:
 				arena.card_buttons[0].pressed.emit()
 				phase = 9
 		9:
-			# Now the 4th boss: the Hollow Choir.
+			# Boss #4: the Hollow Choir.
 			_wait_for_arena("res://scenes/choir_arena.tscn")
 			phase = 10
 		10:
@@ -96,28 +96,53 @@ func _physics_process(_delta: float) -> bool:
 				arena.card_buttons[0].pressed.emit()
 				phase = 12
 		12:
-			# A full lap of four trials: next is lap-2 Captain.
-			_wait_for_arena("res://scenes/captain_arena.tscn")
+			# Boss #5: the Bell of the Last Hour.
+			_wait_for_arena("res://scenes/bell_arena.tscn")
 			phase = 13
 		13:
-			h.check(run.lap == 2, "soak: lap advanced to 2")
-			h.check(boss.max_hp == 12, "soak: lap-2 captain scaled (hp=%d)" % boss.max_hp)
+			h.check(run.lap == 1 and run.boss_index == 4, "soak: rotation at the Bell, lap 1")
 			boss.take_damage(99, boss.global_position + Vector2(10, 0))
 			phase = 14
 		14:
 			if frames >= 25:
-				h.check(run.shards == 15, "soak: lap-2 shards (15)")
-				# The hero dies: the gauntlet restarts fresh.
-				player.take_damage(99, player.global_position + Vector2(10, 0))
+				h.check(run.shards == 15, "soak: fifth victory sharded (15)")
+				arena.card_buttons[0].pressed.emit()
 				phase = 15
 		15:
-			if frames >= 260:
-				phase = 16
+			# Boss #6: the Night.
+			_wait_for_arena("res://scenes/night_arena.tscn")
+			phase = 16
 		16:
+			h.check(run.lap == 1 and run.boss_index == 5, "soak: rotation at the Night, lap 1")
+			boss.take_damage(99, boss.global_position + Vector2(10, 0))
+			phase = 17
+		17:
+			if frames >= 25:
+				h.check(run.shards == 18, "soak: sixth victory sharded (18)")
+				arena.card_buttons[0].pressed.emit()
+				phase = 18
+		18:
+			# A full lap of six: next is lap-2 Captain.
+			_wait_for_arena("res://scenes/captain_arena.tscn")
+			phase = 19
+		19:
+			h.check(run.lap == 2, "soak: lap advanced to 2")
+			h.check(boss.max_hp == 12, "soak: lap-2 captain scaled (hp=%d)" % boss.max_hp)
+			boss.take_damage(99, boss.global_position + Vector2(10, 0))
+			phase = 20
+		20:
+			if frames >= 25:
+				h.check(run.shards == 21, "soak: lap-2 shards (21)")
+				player.take_damage(99, player.global_position + Vector2(10, 0))
+				phase = 21
+		21:
+			if frames >= 260:
+				phase = 22
+		22:
 			h.check(run.run_active, "soak: fresh run after death")
 			h.check(run.lap == 1, "soak: restart resets the lap")
 			h.check(run.buffs.is_empty(), "soak: restart clears buffs")
-			h.check(run.shards == 15, "soak: shards survived the death (15)")
+			h.check(run.shards == 21, "soak: shards survived the death (21)")
 			quit(0 if h.summary() else 1)
 	return false
 

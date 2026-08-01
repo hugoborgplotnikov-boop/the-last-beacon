@@ -10,6 +10,8 @@ const BOSS_ROTATION: Array[String] = [
 	"res://scenes/bastion_arena.tscn",
 	"res://scenes/fallen_beacon_arena.tscn",
 	"res://scenes/choir_arena.tscn",
+	"res://scenes/bell_arena.tscn",
+	"res://scenes/night_arena.tscn",
 ]
 
 const SHOP_SCENE := "res://scenes/main_menu.tscn"
@@ -27,6 +29,17 @@ const CARDS := {
 	"lighter_blade": {"title": "Lighter Blade", "desc": "swings 0.08s faster", "buffs": {"cooldown": 0.08}},
 	"deep_breath": {"title": "Deep Breath", "desc": "+50% stamina regen", "buffs": {"regen": 0.5}},
 	"giants_reach": {"title": "Giant's Reach", "desc": "+20% attack range", "buffs": {"reach": 0.2}},
+	"veterans_grip": {"title": "Veteran's Grip", "desc": "+1 damage, swings cost 2 less", "buffs": {"damage": 1, "stamina_discount": 2.0}},
+	"iron_will": {"title": "Iron Will", "desc": "+1 max health, +10 stamina", "buffs": {"hp": 1, "stamina": 10.0}},
+	"flurry": {"title": "Flurry", "desc": "swings 0.04s faster, +5% speed", "buffs": {"cooldown": 0.04, "speed": 11.0}},
+	"juggernaut": {"title": "Juggernaut", "desc": "+1 max health, +5% speed", "buffs": {"hp": 1, "speed": 11.0}},
+	"titan_slayer": {"title": "Titan Slayer", "desc": "+1 damage, +10% reach", "buffs": {"damage": 1, "reach": 0.1}},
+	"blood_rush": {"title": "Blood Rush", "desc": "lifesteal 1, +10% speed", "buffs": {"lifesteal": 1, "speed": 22.0}},
+	"unbroken": {"title": "Unbroken", "desc": "+15 stamina, +20% regen", "buffs": {"stamina": 15.0, "regen": 0.2}},
+	"precision": {"title": "Precision", "desc": "swings 0.04s faster, +10% reach", "buffs": {"cooldown": 0.04, "reach": 0.1}},
+	"war_dance": {"title": "War Dance", "desc": "swings cost 3 less, +10 speed", "buffs": {"stamina_discount": 3.0, "speed": 22.0}},
+	"last_stand": {"title": "Last Stand", "desc": "+2 max health, -0.04s cooldown", "buffs": {"hp": 2, "cooldown": 0.04}},
+	"reapers_edge": {"title": "Reaper's Edge", "desc": "+1 damage, lifesteal 1", "buffs": {"damage": 1, "lifesteal": 1}},
 }
 
 ## The shop: id -> {title, desc, cost, max} — permanent unlocks bought with
