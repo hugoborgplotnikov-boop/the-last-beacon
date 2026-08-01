@@ -155,6 +155,7 @@ func _swing(player: Node2D, fid: int, fast := false) -> void:
 	body.modulate = Color.WHITE
 	state = State.SWING
 	big_attack.emit()
+	Fx.ring(global_position + Vector2(0, 22), Color(1.0, 0.82, 0.45))
 	swing_box.monitoring = true
 	swing_box.visible = true
 	var victims: Array[Node] = []
@@ -273,6 +274,7 @@ func die() -> void:
 	velocity = Vector2.ZERO
 	sword.rotation = 0.0
 	body.visible = false
+	Fx.burst(global_position, Color(1.0, 0.82, 0.45))
 	hurt_box.set_deferred("monitoring", false)
 	hurt_box.set_deferred("monitorable", false)
 	touch_box.set_deferred("monitoring", false)

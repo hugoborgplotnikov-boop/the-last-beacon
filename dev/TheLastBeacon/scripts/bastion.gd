@@ -116,6 +116,7 @@ func _erupt_at(player: Node2D, zone_x: float, wait: float, fid: int) -> void:
 	erupt_zone.visible = false
 	state = State.ERUPT
 	big_attack.emit()
+	Fx.ring(global_position + Vector2(0, 22), Color(0.85, 0.88, 1.0))
 	if _player_in_zone(player, zone_x):
 		player.take_damage(touch_damage, global_position)
 
@@ -153,6 +154,7 @@ func _sweep(player: Node2D, fid: int) -> void:
 	body.modulate = Color.WHITE
 	state = State.SWEEP
 	big_attack.emit()
+	Fx.ring(global_position + Vector2(0, 22), Color(0.85, 0.88, 1.0))
 	# The iron claws rake once per victim while out.
 	var victims: Array[Node] = []
 	for i in 10:
@@ -182,6 +184,7 @@ func _charge(player: Node2D, fid: int) -> void:
 	body.modulate = Color.WHITE
 	state = State.CHARGE
 	big_attack.emit()
+	Fx.ring(global_position + Vector2(0, 22), Color(0.85, 0.88, 1.0))
 	var speed: float = charge_speed * (1.0 if phase == 1 else 1.2)
 	velocity.x = facing.x * speed
 	await get_tree().create_timer(0.75).timeout
@@ -225,6 +228,7 @@ func die() -> void:
 	fight_id += 1
 	velocity = Vector2.ZERO
 	body.visible = false
+	Fx.burst(global_position, Color(0.85, 0.88, 1.0))
 	hurt_box.set_deferred("monitoring", false)
 	hurt_box.set_deferred("monitorable", false)
 	touch_box.set_deferred("monitoring", false)

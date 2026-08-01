@@ -34,9 +34,11 @@ var spawn_point := Vector2.ZERO
 var air_jumps_left := 1
 var swing_tween: Tween
 var lifesteal := 0
+var _trail_world: Array[Vector2] = []
 
 @onready var body: Node2D = $Body
 @onready var sword: Node2D = $Greatsword
+@onready var trail: Line2D = $Greatsword/Trail
 @onready var attack_box: Area2D = $AttackBox
 @onready var hit_zone: Area2D = $HitZone
 
@@ -53,6 +55,7 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	var dir := Input.get_axis("move_left", "move_right")
+	var was_airborne := not is_on_floor()
 
 	if is_rolling:
 		velocity = facing * roll_speed
@@ -77,6 +80,14 @@ func _physics_process(delta: float) -> void:
 
 	move_and_slide()
 
+	# Boots on stone: dust when landing, and a scuff while rolling.
+	if was_airborne and is_on_floor():
+		Fx.dust(global_position + Vector2(0, 17), 12)
+	if is_rolling and Engine.get_physics_frames() % 6 == 0:
+		Fx.dust(global_position + Vector2(-facing.x * 8, 17), 4)
+
+	_update_trail()
+
 	if not is_attacking and not is_rolling and stamina < max_stamina:
 		stamina = minf(max_stamina, stamina + stamina_regen * delta)
 		stamina_changed.emit(stamina)
@@ -85,6 +96,30 @@ func _physics_process(delta: float) -> void:
 		start_roll()
 	if Input.is_action_just_pressed("attack") and _can_attack():
 		start_attack()
+
+
+## The blade's ribbon: the tip's recent path, in the sword's own space.
+## Only alive during a swing — it fades out and clears itself after.
+func _update_trail() -> void:
+	if is_attacking:
+		trail.add_point(Vector2(0, -30))
+		# The whole ribbon must trail in world space, so shift the older
+		# points back by the sword's motion since last frame.
+		var pts := trail.points
+		var xf := sword.global_transform
+		for i in pts.size() - 1:
+			pts[i] = xf.affine_inverse() * _trail_world[i]
+		trail.points = pts
+		_trail_world.append(xf * Vector2(0, -30))
+		while trail.get_point_count() > 12:
+			trail.remove_point(0)
+			_trail_world.remove_at(0)
+		trail.modulate.a = 1.0
+	elif trail.get_point_count() > 0:
+		trail.modulate.a = maxf(0.0, trail.modulate.a - 0.12)
+		if trail.modulate.a <= 0.0:
+			trail.clear_points()
+			_trail_world.clear()
 
 
 func _can_roll() -> bool:
@@ -134,7 +169,11 @@ func start_attack() -> void:
 
 func _on_attack_box_area_entered(area: Area2D) -> void:
 	if area.is_in_group("enemy_hurtbox"):
-		area.get_parent().take_damage(attack_damage, global_position)
+		var target: Node2D = area.get_parent()
+		target.take_damage(attack_damage, global_position)
+		# Steel on steel: sparks thrown back along the blow.
+		var contact: Vector2 = global_position.lerp(target.global_position, 0.6)
+		Fx.sparks(contact, (target.global_position - global_position).normalized())
 		if lifesteal > 0 and not dead:
 			heal(lifesteal)
 

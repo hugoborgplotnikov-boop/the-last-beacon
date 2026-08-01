@@ -60,3 +60,4 @@ environment/defaults/default_clear_color=Color(0.02, 0.02, 0.05, 1)
 [autoload]
 
 Run="*res://scripts/run.gd"
+Fx="*res://scripts/fx.gd"

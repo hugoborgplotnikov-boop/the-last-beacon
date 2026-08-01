@@ -145,6 +145,7 @@ func _slam(player: Node2D, fid: int) -> void:
 	state = State.SLAM
 	# The red zone marks exactly where the slam lands.
 	big_attack.emit()
+	Fx.ring(global_position + Vector2(0, 22), Color(1.0, 0.75, 0.4))
 	var offset: Vector2 = player.global_position - global_position
 	if absf(offset.y) < 70.0 and offset.x * facing.x > -30.0 and offset.x * facing.x < slam_range:
 		player.take_damage(touch_damage, global_position)
@@ -170,6 +171,7 @@ func _sweep(player: Node2D, fid: int) -> void:
 	state = State.SWEEP
 	# The sweep damages once per victim while the blade is out.
 	big_attack.emit()
+	Fx.ring(global_position + Vector2(0, 22), Color(1.0, 0.75, 0.4))
 	var victims: Array[Node] = []
 	for i in 8:
 		await get_tree().create_timer(0.05).timeout
@@ -219,6 +221,7 @@ func die() -> void:
 	fight_id += 1
 	velocity = Vector2.ZERO
 	body.visible = false
+	Fx.burst(global_position, Color(1.0, 0.75, 0.4))
 	hurt_box.set_deferred("monitoring", false)
 	hurt_box.set_deferred("monitorable", false)
 	touch_box.set_deferred("monitoring", false)

@@ -61,8 +61,8 @@ func _process(_delta: float) -> bool:
 				player.start_roll()
 	if frames == 42 and shot == "jump":
 		player.velocity = Vector2(120.0, -260.0)
-	# Snap.
-	if frames == 44 and not fired:
+	# Snap late enough for the trail ribbon to have points.
+	if frames == 50 and not fired:
 		fired = true
 		_snap()
 	return false
